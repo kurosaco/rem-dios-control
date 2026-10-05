@@ -3,108 +3,233 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zolpidem Controller</title>
+  <title>Zolpidem Control Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .glass {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-4 text-gray-800">
-  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 space-y-5">
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-24 selection:bg-indigo-500 selection:text-white">
+
+  <div class="max-w-md mx-auto px-4 pt-5 space-y-5">
     
-    <!-- Cabeçalho -->
-    <div class="flex justify-between items-center border-b pb-3">
-      <div>
-        <h1 class="text-xl font-bold text-teal-700">Zolpidem Controller</h1>
-        <p class="text-xs text-gray-500">Controle Dinâmico & Custos</p>
+    <!-- CABEÇALHO COM ÍCONE DO MEDICAMENTO GENÉRICO -->
+    <header class="glass p-4 rounded-3xl flex justify-between items-center shadow-2xl">
+      <div class="flex items-center space-x-3">
+        <!-- Ícone Estilizado da Caixinha do Zolpidem Genérico -->
+        <div class="w-12 h-10 bg-white rounded-lg flex flex-col justify-between overflow-hidden shadow-md border border-slate-300 relative">
+          <div class="bg-yellow-400 h-2.5 w-full flex items-center justify-center">
+            <span class="text-[7px] font-black text-black leading-none">G</span>
+          </div>
+          <div class="px-1 py-0.5 text-center">
+            <span class="text-[7px] font-extrabold text-slate-800 tracking-tighter uppercase block leading-none">Zolpidem</span>
+            <span class="text-[5px] text-slate-500 block leading-none">10mg</span>
+          </div>
+          <div class="bg-red-600 h-2 w-full"></div>
+        </div>
+        <div>
+          <h1 class="text-base font-bold tracking-tight text-white leading-tight">Zolpidem Control</h1>
+          <p class="text-[11px] text-slate-400">Gestão Médica & Financeira</p>
+        </div>
       </div>
-      <button onclick="toggleConfig()" class="bg-gray-100 p-2 rounded-full hover:bg-gray-200 text-sm">
-        ⚙️ Config
+      <button onclick="toggleConfig()" class="p-2.5 bg-slate-800/80 rounded-2xl hover:bg-slate-700 transition active:scale-95 border border-slate-700/50">
+        ⚙️
+      </button>
+    </header>
+
+    <!-- PAINEL DE CONFIGURAÇÕES -->
+    <div id="configPanel" class="hidden glass p-5 rounded-3xl space-y-4 border border-indigo-500/30 shadow-2xl">
+      <h2 class="font-bold text-sm text-indigo-400 flex items-center gap-2">⚙️ Configurações do Medicamento</h2>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div>
+          <label class="text-slate-400 block mb-1">Preço da Caixa (R$)</label>
+          <input type="number" id="inputPrice" value="45.00" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-semibold focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Comprimidos/Caixa</label>
+          <input type="number" id="inputBoxPills" value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-semibold focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Estoque Atual em Mãos</label>
+          <input type="number" id="inputStock" value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-semibold focus:outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Dose Diária (Mínima)</label>
+          <input type="number" id="inputDaily" value="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-semibold focus:outline-none focus:border-indigo-500">
+        </div>
+      </div>
+      <button onclick="saveConfig()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-2xl font-bold text-xs tracking-wide shadow-lg shadow-indigo-600/30 transition active:scale-98">
+        SALVAR CONFIGURAÇÕES
       </button>
     </div>
 
-    <!-- Painel de Configuração -->
-    <div id="configPanel" class="hidden bg-gray-50 p-4 rounded-xl border space-y-3">
-      <h2 class="font-semibold text-sm text-gray-700">Configurações Principais</h2>
-      <div>
-        <label class="text-xs text-gray-500">Preço da Caixa (R$)</label>
-        <input type="number" id="inputPrice" value="45.00" step="0.01" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Comprimidos na Caixa</label>
-        <input type="number" id="inputBoxPills" value="30" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Estoque Atual em Mãos</label>
-        <input type="number" id="inputStock" value="30" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Dose Diária Padrão (Mínimo)</label>
-        <input type="number" id="inputDaily" value="6" class="w-full border rounded p-2 text-sm">
-      </div>
-      <button onclick="saveConfig()" class="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold text-sm">Salvar Alterações</button>
-    </div>
-
-    <!-- Card de Previsão de Término -->
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl space-y-1">
-      <div class="flex items-center space-x-2">
-        <span class="text-lg">📅</span>
-        <p class="text-xs font-bold text-amber-800 uppercase">Previsão de Término</p>
-      </div>
-      <p id="predictionText" class="text-sm font-semibold text-amber-900">Calculando...</p>
-      <p id="daysRemainingText" class="text-xs text-amber-700">--</p>
-    </div>
-
-    <!-- Card Principal de Estoque e Finanças -->
-    <div class="bg-teal-50 rounded-2xl p-5 border border-teal-100 space-y-4">
-      <div class="text-center">
-        <p class="text-xs font-semibold uppercase text-teal-600 tracking-wider">Estoque Atual</p>
-        <div class="text-5xl font-black text-teal-800 my-1" id="stockDisplay">30</div>
-        <p class="text-xs text-gray-500">comprimidos em mãos</p>
-      </div>
-
-      <div class="pt-3 border-t border-teal-200/60 text-xs space-y-2">
-        <div class="flex justify-between">
-          <span class="text-gray-600">Valor em Estoque:</span>
-          <span id="stockValueDisplay" class="font-bold text-teal-900">R$ 0,00</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-600">Custo por Comprimido:</span>
-          <span id="unitPriceDisplay" class="font-bold text-green-700">R$ 0,00</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-600">Gasto Estimado (Mensal):</span>
-          <span id="monthlySpendDisplay" class="font-bold text-gray-700">R$ 0,00</span>
+    <!-- ABA 1: INÍCIO (ESTOQUE & DOSE) -->
+    <main id="tab-home" class="tab-content space-y-4">
+      <!-- Alerta de Previsão -->
+      <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-3xl flex items-start space-x-3">
+        <span class="text-2xl">⏳</span>
+        <div>
+          <p class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider">Previsão de Término</p>
+          <p id="predictionText" class="text-sm font-bold text-amber-200 mt-0.5">Calculando...</p>
+          <p id="daysRemainingText" class="text-xs text-amber-300/80 mt-0.5">--</p>
         </div>
       </div>
-    </div>
 
-    <!-- Registro de Doses -->
-    <div class="space-y-3">
-      <p class="text-xs font-bold text-gray-500 uppercase">Registrar Consumo (Ao Vivo)</p>
-      
-      <!-- Botões Rápidos -->
-      <div class="grid grid-cols-4 gap-2">
-        <button onclick="takeDose(1)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+1</button>
-        <button onclick="takeDose(3)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+3</button>
-        <button onclick="takeDose(4)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+4</button>
-        <button onclick="takeDose(6)" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-xl text-base">+6</button>
+      <!-- Card Central de Estoque -->
+      <div class="glass p-6 rounded-3xl text-center relative overflow-hidden shadow-2xl border border-slate-800">
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
+        <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Estoque Atual em Mãos</p>
+        <div class="text-6xl font-black text-white tracking-tight my-2" id="stockDisplay">0</div>
+        <p class="text-xs text-slate-400">comprimidos restantes</p>
+
+        <div class="mt-6 pt-4 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-left text-xs">
+          <div class="bg-slate-900/60 p-3 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] block uppercase">Custo / CP</span>
+            <span id="unitPriceDisplay" class="font-bold text-emerald-400 text-sm">R$ 0,00</span>
+          </div>
+          <div class="bg-slate-900/60 p-3 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] block uppercase">Valor em Estoque</span>
+            <span id="stockValueDisplay" class="font-bold text-indigo-400 text-sm">R$ 0,00</span>
+          </div>
+        </div>
       </div>
 
-      <!-- Campo para Quantidade Personalizada -->
-      <div class="flex gap-2 pt-1">
-        <input type="number" id="customAmount" placeholder="Outra qte (ex: 2, 5)" class="border rounded-xl px-3 py-2 text-xs w-full">
-        <button onclick="takeCustomDose()" class="bg-gray-800 text-white font-semibold text-xs px-4 py-2 rounded-xl">Registrar</button>
-      </div>
-    </div>
+      <!-- Registro de Doses Ao Vivo -->
+      <div class="glass p-5 rounded-3xl space-y-3">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Registrar Consumo Diário</p>
+        <div class="grid grid-cols-4 gap-2">
+          <button onclick="takeDose(1)" class="bg-slate-800 hover:bg-indigo-600/30 hover:border-indigo-500 border border-slate-700/60 text-indigo-300 font-extrabold py-3 rounded-2xl text-base transition active:scale-95">+1</button>
+          <button onclick="takeDose(3)" class="bg-slate-800 hover:bg-indigo-600/30 hover:border-indigo-500 border border-slate-700/60 text-indigo-300 font-extrabold py-3 rounded-2xl text-base transition active:scale-95">+3</button>
+          <button onclick="takeDose(4)" class="bg-slate-800 hover:bg-indigo-600/30 hover:border-indigo-500 border border-slate-700/60 text-indigo-300 font-extrabold py-3 rounded-2xl text-base transition active:scale-95">+4</button>
+          <button onclick="takeDose(6)" class="bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-2xl text-base shadow-lg shadow-indigo-600/30 transition active:scale-95">+6</button>
+        </div>
 
-    <!-- Histórico de Atividade -->
-    <div class="space-y-2">
-      <div class="flex justify-between items-center">
-        <p class="text-xs font-bold text-gray-500 uppercase">Histórico Recente</p>
-        <button onclick="clearHistory()" class="text-[10px] text-red-500 hover:underline">Limpar</button>
+        <div class="flex gap-2 pt-1">
+          <input type="number" id="customAmount" placeholder="Outra quantidade (ex: 2, 5)" class="bg-slate-900 border border-slate-700 rounded-2xl px-4 py-2.5 text-xs text-white w-full focus:outline-none focus:border-indigo-500">
+          <button onclick="takeCustomDose()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-5 py-2.5 rounded-2xl border border-slate-700 transition active:scale-95">Registrar</button>
+        </div>
       </div>
-      <div id="historyList" class="space-y-1 max-h-36 overflow-y-auto text-xs text-gray-600">
-        <p class="text-gray-400 italic">Nenhum registro até o momento.</p>
+    </main>
+
+    <!-- ABA 2: GASTOS TOTAIS -->
+    <main id="tab-costs" class="tab-content hidden space-y-4">
+      <div class="glass p-5 rounded-3xl space-y-4 border border-slate-800">
+        <h2 class="text-sm font-bold text-indigo-400 flex items-center gap-2">💰 Análise Financeira Avançada</h2>
+        
+        <div class="space-y-3">
+          <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-xs text-slate-400">Gasto Real Neste Mês</p>
+              <p class="text-[10px] text-slate-500">Baseado nas doses tomadas</p>
+            </div>
+            <span id="spentThisMonthDisplay" class="text-lg font-black text-emerald-400">R$ 0,00</span>
+          </div>
+
+          <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-xs text-slate-400">Gasto Estimado Mensal</p>
+              <p class="text-[10px] text-slate-500">Com base na meta diária</p>
+            </div>
+            <span id="monthlySpendDisplay" class="text-lg font-black text-indigo-400">R$ 0,00</span>
+          </div>
+
+          <!-- Custo para Renovar Estoque -->
+          <div class="bg-indigo-950/40 border border-indigo-500/30 p-4 rounded-2xl space-y-2">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="text-xs font-bold text-indigo-300">Renovação de Estoque (+30 dias)</p>
+                <p class="text-[10px] text-indigo-200/70" id="boxesToBuyText">Calculando caixas necessárias...</p>
+              </div>
+              <span id="renewCostDisplay" class="text-lg font-black text-amber-400">R$ 0,00</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
+
+    <!-- ABA 3: RELATÓRIOS & HISTÓRICO -->
+    <main id="tab-reports" class="tab-content hidden space-y-4">
+      <div class="glass p-5 rounded-3xl space-y-4">
+        <div class="flex justify-between items-center">
+          <h2 class="text-sm font-bold text-indigo-400">📊 Relatório do Mês</h2>
+          <button onclick="exportReport()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3 py-1.5 rounded-xl transition active:scale-95 shadow-md shadow-emerald-600/30">
+            📥 Exportar TXT
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] block">CPs Consumidos no Mês</span>
+            <span id="monthPillsTaken" class="text-base font-extrabold text-white">0</span>
+          </div>
+          <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
+            <span class="text-slate-400 text-[10px] block">Média Diária Real</span>
+            <span id="monthDailyAvg" class="text-base font-extrabold text-white">0.0 / dia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Histórico em Tempo Real -->
+      <div class="glass p-5 rounded-3xl space-y-3">
+        <div class="flex justify-between items-center">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Histórico de Atividade ao Vivo</p>
+          <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:underline">Limpar Histórico</button>
+        </div>
+        <div id="historyList" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+          <p class="text-slate-500 italic text-center py-4">Nenhum registro armazenado.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- ABA 4: DICAS & GUIA MÉDICO -->
+    <main id="tab-tips" class="tab-content hidden space-y-4">
+      <div class="glass p-5 rounded-3xl space-y-3">
+        <h2 class="text-sm font-bold text-indigo-400 flex items-center gap-2">💡 Orientações de Uso (Zolpidem)</h2>
+        
+        <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
+          <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+            <p class="font-bold text-amber-400 mb-0.5">⚠️ Momento Correto de Tomar</p>
+            <p>O Zolpidem possui ação ultra-rápida. Tome imediatamente antes de se deitar na cama, nunca enquanto ainda realiza tarefas.</p>
+          </div>
+
+          <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+            <p class="font-bold text-indigo-300 mb-0.5">💊 Zolpidem Genérico vs de Referência</p>
+            <p>Os genéricos de laboratórios certificados possuem exatamente o mesmo princípio ativo (Hemitartarato de Zolpidem 10mg) e eficácia bioequivalente.</p>
+          </div>
+
+          <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+            <p class="font-bold text-emerald-400 mb-0.5">🌙 Higiene do Sono</p>
+            <p>Evite telas de celular e iluminação forte 30 minutos antes de se deitar para maximizar a indução natural do sono.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- BARRA DE NAVEGAÇÃO INFERIOR (MODERNA NATIVA) -->
+    <nav class="fixed bottom-3 left-1/2 -translate-x-1/2 w-[92%] max-w-md glass rounded-3xl p-2 flex justify-around items-center border border-slate-800 shadow-2xl z-50">
+      <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center py-1 px-3 text-indigo-400 transition">
+        <span class="text-lg">🏠</span>
+        <span class="text-[9px] font-bold mt-0.5">Início</span>
+      </button>
+      <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn flex flex-col items-center py-1 px-3 text-slate-500 transition">
+        <span class="text-lg">💰</span>
+        <span class="text-[9px] font-bold mt-0.5">Gastos</span>
+      </button>
+      <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn flex flex-col items-center py-1 px-3 text-slate-500 transition">
+        <span class="text-lg">📊</span>
+        <span class="text-[9px] font-bold mt-0.5">Relatórios</span>
+      </button>
+      <button onclick="switchTab('tips')" id="nav-tips" class="nav-btn flex flex-col items-center py-1 px-3 text-slate-500 transition">
+        <span class="text-lg">💡</span>
+        <span class="text-[9px] font-bold mt-0.5">Dicas</span>
+      </button>
+    </nav>
 
   </div>
 
@@ -126,12 +251,12 @@
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
       document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
-      // Cálculo de término e tempo restante
+      // Previsão de Término
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Seu estoque acabou!";
-        document.getElementById('daysRemainingText').innerText = "Recarregue seu estoque nas configurações.";
+        document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
       } else if (dailyDose <= 0) {
-        document.getElementById('predictionText').innerText = "Defina uma dose diária válida.";
+        document.getElementById('predictionText').innerText = "Configure a dose diária.";
         document.getElementById('daysRemainingText').innerText = "";
       } else {
         let daysLeft = stock / dailyDose;
@@ -140,26 +265,60 @@
         endDate.setDate(today.getDate() + Math.floor(daysLeft));
         
         let dateStr = endDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        
-        document.getElementById('predictionText').innerText = `Estoque acaba no dia ${dateStr}`;
-        document.getElementById('daysRemainingText').innerText = `Resta(m) aproximadamente ${daysLeft.toFixed(1)} dia(s) ao ritmo de ${dailyDose}/dia.`;
+        document.getElementById('predictionText').innerText = `Estoque acaba em ${dateStr}`;
+        document.getElementById('daysRemainingText').innerText = `Resta(m) cerca de ${daysLeft.toFixed(1)} dia(s) ao ritmo de ${dailyDose}/dia.`;
       }
 
-      // Histórico
+      // Cálculos do Mês Atual
+      let now = new Date();
+      let currentMonth = now.getMonth();
+      let currentYear = now.getFullYear();
+
+      let pilsTakenThisMonth = 0;
+      history.forEach(item => {
+        let itemDate = new Date(item.timestamp);
+        if (itemDate.getMonth() === currentMonth && itemDate.getFullYear() === currentYear) {
+          pilsTakenThisMonth += item.amount;
+        }
+      });
+
+      let spentThisMonth = pilsTakenThisMonth * unitPrice;
+      document.getElementById('spentThisMonthDisplay').innerText = 'R$ ' + spentThisMonth.toFixed(2);
+      document.getElementById('monthPillsTaken').innerText = pilsTakenThisMonth;
+
+      let currentDayOfMonth = now.getDate();
+      let dailyAvgReal = currentDayOfMonth > 0 ? (pilsTakenThisMonth / currentDayOfMonth) : 0;
+      document.getElementById('monthDailyAvg').innerText = dailyAvgReal.toFixed(1) + ' / dia';
+
+      // Custo para Renovar Estoque (+30 dias)
+      let pillsNeeded30Days = dailyDose * 30;
+      let boxesNeeded = Math.ceil(pillsNeeded30Days / boxPills);
+      let renewalCost = boxesNeeded * price;
+
+      document.getElementById('renewCostDisplay').innerText = 'R$ ' + renewalCost.toFixed(2);
+      document.getElementById('boxesToBuyText').innerText = `Necessário comprar ${boxesNeeded} caixa(s) de ${boxPills} CPs para 30 dias.`;
+
+      // Renderizar Histórico
       let historyHTML = '';
       if (history.length === 0) {
-        historyHTML = '<p class="text-gray-400 italic">Nenhum registro no histórico.</p>';
+        historyHTML = '<p class="text-slate-500 italic text-center py-4">Nenhum registro armazenado.</p>';
       } else {
-        history.slice(0, 10).forEach(item => {
-          historyHTML += `<div class="bg-gray-50 p-2 rounded flex justify-between items-center">
-            <span>✔️ Tomei ${item.amount} comprimido(s)</span> 
-            <span class="text-gray-400 text-[10px]">${item.time}</span>
-          </div>`;
+        history.slice(0, 15).forEach(item => {
+          let itemCost = item.amount * unitPrice;
+          historyHTML += `
+            <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+              <div>
+                <p class="font-bold text-white">✔️ Tomei ${item.amount} comprimido(s)</p>
+                <p class="text-[10px] text-slate-500">${item.timeStr}</p>
+              </div>
+              <span class="font-semibold text-emerald-400 text-xs">R$ ${itemCost.toFixed(2)}</span>
+            </div>
+          `;
         });
       }
       document.getElementById('historyList').innerHTML = historyHTML;
 
-      // Salvar
+      // Salvar Dados
       localStorage.setItem('med_stock', stock);
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
@@ -172,7 +331,7 @@
       stock = Math.max(0, stock - amount);
       let now = new Date();
       let timeStr = `${now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
-      history.unshift({ amount: amount, time: timeStr });
+      history.unshift({ amount: amount, timeStr: timeStr, timestamp: now.getTime() });
       updateUI();
     }
 
@@ -186,26 +345,35 @@
     }
 
     function clearHistory() {
-      if (confirm("Deseja limpar todo o histórico?")) {
+      if (confirm("Deseja apagar todo o histórico de consumo?")) {
         history = [];
         updateUI();
       }
     }
 
-    function toggleConfig() {
-      document.getElementById('configPanel').classList.toggle('hidden');
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('text-indigo-400');
+        el.classList.add('text-slate-500');
+      });
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+      let activeBtn = document.getElementById(`nav-${tabName}`);
+      activeBtn.classList.remove('text-slate-500');
+      activeBtn.classList.add('text-indigo-400');
     }
 
-    function saveConfig() {
-      price = parseFloat(document.getElementById('inputPrice').value) || 0;
-      boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
-      stock = parseInt(document.getElementById('inputStock').value) || 0;
-      dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
-      toggleConfig();
-      updateUI();
-    }
+    function exportReport() {
+      let unitPrice = boxPills > 0 ? (price / boxPills) : 0;
+      let monthlyCost = dailyDose * 30 * unitPrice;
+      let now = new Date();
+      
+      let reportContent = `
+========================================
+    RELATÓRIO DE CONSUMO - ZOLPIDEM     
+========================================
+Data da Emissão: ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}
 
-    updateUI();
-  </script>
-</body>
-</html>
+[CONFIGURAÇÕES ATUAIS]
+- Preço por C
