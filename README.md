@@ -2,146 +2,436 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zolpidem Controller</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen p-4 text-gray-800">
-  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 space-y-6">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Zolpidem & Executivo Financeiro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #090714; color: #f1f5f9; padding: 16px; padding-bottom: 95px; }
+
+    .card { background: linear-gradient(145deg, #130f26, #1a1535); border-radius: 20px; padding: 18px; margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .header { display: flex; justify-content: space-between; align-items: center; }
+
+    .box-icon { width: 44px; height: 38px; background: #ffffff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #cbd5e1; box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3); }
+    .box-g { background: #fae8ff; height: 11px; text-align: center; font-size: 7px; font-weight: 900; color: #7e22ce; line-height: 11px; }
+    .box-title { text-align: center; font-size: 7px; font-weight: 800; color: #1e1b4b; text-transform: uppercase; line-height: 10px; }
+    .box-stripe { background: #9333ea; height: 8px; }
+
+    .btn-icon { background: #261c47; border: 1px solid #4c1d95; color: #c084fc; padding: 10px; border-radius: 12px; font-size: 16px; cursor: pointer; }
+
+    .alert { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 14px; border-radius: 16px; margin-bottom: 14px; }
+    .alert-title { color: #c084fc; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .alert-text { color: #f3e8ff; font-size: 13px; font-weight: 700; margin-top: 2px; }
+    .alert-sub { color: #e9d5ff; font-size: 11px; margin-top: 2px; }
+
+    .alert-danger { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; }
+    .alert-danger .alert-title { color: #fb7185; }
+    .alert-danger .alert-text { color: #ffe4e6; }
+
+    .stock-number { font-size: 46px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
+    .stat-label { font-size: 9px; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-val { font-size: 14px; font-weight: 800; margin-top: 2px; }
+    .text-purple { color: #c084fc; }
+    .text-green { color: #34d399; }
+    .text-red { color: #f87171; }
+    .text-amber { color: #f59e0b; }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; }
+    .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
+
+    .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
     
-    <!-- Cabeçalho -->
-    <div class="flex justify-between items-center border-b pb-4">
-      <div>
-        <h1 class="text-xl font-bold text-teal-700">Zolpidem Controller</h1>
-        <p class="text-xs text-gray-500">Controle de Estoque & Custos</p>
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      background: #0f0b1e !important;
+      border: 1px solid #6b21a8 !important;
+      color: #ffffff !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      font-size: 13px !important;
+      outline: none !important;
+    }
+
+    .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
+
+    .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
+    .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: 700; cursor: pointer; }
+    .nav-btn span { font-size: 16px; margin-bottom: 2px; }
+    .nav-btn.active { color: #c084fc; }
+
+    .hidden { display: none !important; }
+    .history-item { background: rgba(15, 11, 30, 0.5); border: 1px solid rgba(168, 85, 247, 0.15); padding: 10px 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+    
+    .chat-box { height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .chat-msg { padding: 10px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; max-width: 88%; word-break: break-word; }
+    .msg-user { background: #6b21a8; color: #fff; align-self: flex-end; }
+    .msg-bot { background: #1a1230; color: #e9d5ff; align-self: flex-start; border: 1px solid rgba(168, 85, 247, 0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <div class="card header">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="box-icon">
+        <div class="box-g">G</div>
+        <div class="box-title">Zolpidem</div>
+        <div class="box-stripe"></div>
       </div>
-      <button onclick="toggleConfig()" class="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-        ⚙️ Config
-      </button>
+      <div>
+        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Executivo Financeiro</h1>
+        <p style="font-size: 10px; color: #a855f7;">Gestão Jurídica, CLT & Saúde</p>
+      </div>
+    </div>
+    <button onclick="toggleConfig()" class="btn-icon">⚙</button>
+  </div>
+
+  <!-- ALERTA DE MADRUGADA (1:20 ÀS 1:40) -->
+  <div id="consciousnessAlert" class="alert alert-danger hidden">
+    <div class="alert-title">⚠ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
+    <div class="alert-text">Os efeitos do medicamento estão no seu ápice agora!</div>
+    <div class="alert-sub" style="margin-top: 6px; font-size: 11px; line-height: 1.4; color: #ffe4e6;">
+      💬 <b>Atenção:</b> Verifique mensagens ou áudios enviados para evitar arrependimentos amanhã sob efeito do remédio.
+    </div>
+  </div>
+
+  <!-- PAINEL DE CONFIGURAÇÕES -->
+  <div id="configPanel" class="card hidden">
+    <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">⚙ Configurações</h2>
+    <div class="grid-2" style="margin-top:0;">
+      <div>
+        <label style="font-size: 10px; color: #a78bfa;">Preço Caixa Med (R$)</label>
+        <input type="number" id="inputPrice" value="45.00" step="0.01">
+      </div>
+      <div>
+        <label style="font-size: 10px; color: #a78bfa;">CPs por Caixa</label>
+        <input type="number" id="inputBoxPills" value="30">
+      </div>
+      <div>
+        <label style="font-size: 10px; color: #a78bfa;">Estoque Atual</label>
+        <input type="number" id="inputStock" value="30">
+      </div>
+      <div>
+        <label style="font-size: 10px; color: #a78bfa;">Dose Diária Med</label>
+        <input type="number" id="inputDaily" value="6">
+      </div>
+    </div>
+    
+    <div style="margin-top: 10px;">
+      <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
+      <input type="text" id="inputGeminiKey" placeholder="Cole sua chave API aqui">
     </div>
 
-    <!-- Painel de Configuração -->
-    <div id="configPanel" class="hidden bg-gray-50 p-4 rounded-xl border space-y-3">
-      <h2 class="font-semibold text-sm text-gray-700">Configurações do Remédio</h2>
-      <div>
-        <label class="text-xs text-gray-500">Valor da Caixa (R$)</label>
-        <input type="number" id="inputPrice" value="45.00" step="0.01" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Comprimidos na Caixa</label>
-        <input type="number" id="inputBoxPills" value="30" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Estoque Atual</label>
-        <input type="number" id="inputStock" value="30" class="w-full border rounded p-2 text-sm">
-      </div>
-      <div>
-        <label class="text-xs text-gray-500">Consumo Diário Padrão</label>
-        <input type="number" id="inputDaily" value="4" class="w-full border rounded p-2 text-sm">
-      </div>
-      <button onclick="saveConfig()" class="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold text-sm">Salvar Alterações</button>
+    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
+  </div>
+
+  <!-- ABA 1: INÍCIO (MEDICAMENTO) -->
+  <div id="tab-home" class="tab-content">
+    <div class="alert">
+      <div class="alert-title">⏳ Previsão de Término do Remédio</div>
+      <div id="predictionText" class="alert-text">Calculando...</div>
+      <div id="daysRemainingText" class="alert-sub">--</div>
     </div>
 
-    <!-- Alerta de Previsão -->
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl">
-      <div class="flex items-start">
-        <span class="text-xl mr-2">⚠️</span>
-        <div>
-          <p class="text-xs font-bold text-amber-800 uppercase">Previsão de Estoque</p>
-          <p id="predictionText" class="text-sm font-semibold text-amber-900 mt-1">Calculando...</p>
+    <div class="card" style="text-align: center;">
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Estoque Atual em Mãos</p>
+      <div id="stockDisplay" class="stock-number">0</div>
+      <p style="font-size: 11px; color: #94a3b8;">comprimidos restantes</p>
+
+      <div class="grid-2">
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">Custo / CP</div>
+          <div id="unitPriceDisplay" class="stat-val text-green">R$ 0,00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">Valor em Estoque</div>
+          <div id="stockValueDisplay" class="stat-val text-purple">R$ 0,00</div>
         </div>
       </div>
     </div>
 
-    <!-- Card Principal de Estoque -->
-    <div class="bg-teal-50 rounded-2xl p-6 text-center border border-teal-100 space-y-2">
-      <p class="text-xs font-semibold uppercase text-teal-600 tracking-wider">Estoque Atual</p>
-      <div class="text-5xl font-black text-teal-800" id="stockDisplay">30</div>
-      <p class="text-xs text-gray-500">comprimidos restantes</p>
+    <div class="card">
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Registrar Consumo Diário</p>
+      <div class="grid-4">
+        <button onclick="takeDose(1)" class="btn-dose">+1</button>
+        <button onclick="takeDose(3)" class="btn-dose">+3</button>
+        <button onclick="takeDose(4)" class="btn-dose">+4</button>
+        <button onclick="takeDose(6)" class="btn-dose btn-dose-main">+6</button>
+      </div>
+
+      <div class="flex-gap">
+        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)">
+        <button onclick="takeCustomDose()" class="btn-submit">Registrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 2: ADVOGADO & PLANEJAMENTO FINANCEIRO EXECUTIVO (NOVA) -->
+  <div id="tab-strategy" class="tab-content hidden">
+    <div class="alert alert-danger">
+      <div class="alert-title">🚨 DETERMINAÇÃO EXECUTIVA DE CAIXA</div>
+      <div class="alert-text" style="font-size: 11px; font-weight: normal; margin-top: 4px; line-height: 1.4;">
+        <b>Regra de Ouro:</b> Bloqueio estrito de <b>R$ 1.000,00</b> do pagamento das férias. Proibido gastar com supérfluos. O caixa-base de sobrevivência para outubro/novembro está matematicamente travado.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">📊 Dashboard de Projeção Out/Nov</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Reserva Intocável (Férias):</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Proporcional Outubro (Retorno):</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">1ª Parcela 13º (Novembro):</span>
+          <span class="text-amber" style="font-weight: 800;">~R$ 1.114,63</span>
+        </div>
+        <div class="history-item" style="border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.1);">
+          <span style="color: #f3e8ff; font-weight: 800;">CAIXA TOTAL GARANTIDO:</span>
+          <span class="text-purple" style="font-weight: 900; font-size: 14px;">R$ 3.114,63</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">⚖️ Decisões Jurídicas & CLT Aplicadas</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #e2e8f0; line-height: 1.4;">
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>1. Início das Férias (14/10):</b> Regulamentado corretamente conforme o artigo 134 da CLT (proibido iniciar nos 2 dias que antecedem o DSR/repouso semanal).
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>2. Abono Pecuniário (10 dias):</b> Conversão legal garantida pelo artigo 143 da CLT. Vendido e pago junto com as férias.
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>3. Consignados (R$ 525,54/mês):</b> Provisionamento em folha confirmado pelo RH. Sem duplicidade de cobrança por competência cruzada.
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>4. 13º Salário (1ª Parcela):</b> Isenta de INSS na primeira parcela (desconto consolidado apenas na folha final de dezembro).
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">📑 Contratos de Empréstimo Ativos</h2>
+      <div class="history-item">
+        <div><b>PKT706750554</b> (36x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 65,32</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT390965956</b> (36x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 71,53</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT384671147</b> (48x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 301,77</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT252556451</b> (Holerite)</div>
+        <span class="text-red" style="font-weight:700;">R$ 86,92</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 3: CUSTOS DE SAÚDE -->
+  <div id="tab-costs" class="tab-content hidden">
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Custos de Saúde</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="history-item">
+          <div>
+            <div style="color: #cbd5e1;">Gasto Real no Mês</div>
+            <div style="font-size: 9px; color: #64748b;">Consumo de comprimidos</div>
+          </div>
+          <div id="spentThisMonthDisplay" style="font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
+        </div>
+
+        <div class="history-item" style="border-color: rgba(245, 158, 11, 0.4);">
+          <div>
+            <div style="color: #fef3c7; font-weight: 700;">Renovação (+30 dias)</div>
+            <div id="boxesToBuyText" style="font-size: 9px; color: #fde68a;">--</div>
+          </div>
+          <div id="renewCostDisplay" style="font-size: 15px; font-weight: 800; color: #f59e0b;">R$ 0,00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 4: RELATÓRIOS -->
+  <div id="tab-reports" class="tab-content hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório Geral</h2>
+        <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
+      </div>
+      <div class="grid-2">
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">CPs Tomados no Mês</div>
+          <div id="monthPillsTaken" class="stat-val" style="color: #fff;">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">Média Diária Real</div>
+          <div id="monthDailyAvg" class="stat-val" style="color: #fff;">0.0 / dia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Histórico de Consumo</p>
+      <div id="historyList">
+        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 5: GEMINI CHAT (BLINDADA) -->
+  <div id="tab-chat" class="tab-content hidden">
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
       
-      <div class="pt-4 border-t border-teal-200/60 flex justify-between items-center text-sm">
-        <span class="text-gray-600">Custo por comprimido:</span>
-        <span id="unitPriceDisplay" class="font-bold text-green-700">R$ 1,50</span>
+      <div id="chatHistory" class="chat-box">
+        <div class="chat-msg msg-bot">
+          Olá! Sou seu advogado e executivo financeiro. As diretrizes de caixa e leis da CLT estão ativas. Pergunte o que precisar!
+        </div>
+      </div>
+
+      <div class="flex-gap">
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." onkeypress="handleChatKeyPress(event)">
+        <button onclick="sendChatMessage()" class="btn-submit" style="background: #9333ea; border:none;">Enviar</button>
       </div>
     </div>
+  </div>
 
-    <!-- Checkpoint / Botões Rápidos -->
-    <div class="space-y-2">
-      <p class="text-xs font-bold text-gray-500 uppercase">Registrar Dose (Checkpoint)</p>
-      <div class="grid grid-cols-3 gap-2">
-        <button onclick="takeDose(1)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-3 rounded-xl text-lg">+1</button>
-        <button onclick="takeDose(3)" class="bg-teal-200 hover:bg-teal-300 text-teal-800 font-bold py-3 rounded-xl text-lg">+3</button>
-        <button onclick="takeDose(4)" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-lg">+4</button>
-      </div>
-    </div>
-
-    <!-- Histórico -->
-    <div class="space-y-2">
-      <p class="text-xs font-bold text-gray-500 uppercase">Histórico do Dia</p>
-      <div id="historyList" class="space-y-1 max-h-40 overflow-y-auto text-xs text-gray-600">
-        <p class="text-gray-400 italic">Nenhum registro hoje.</p>
-      </div>
-    </div>
-
+  <!-- NAVEGAÇÃO FIXA (5 ABAS) -->
+  <div class="nav-bar">
+    <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
+    <button onclick="switchTab('strategy')" id="nav-strategy" class="nav-btn"><span>💼</span>Executivo</button>
+    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Saúde</button>
+    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatório</button>
+    <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>Gemini</button>
   </div>
 
   <script>
-    let stock = parseInt(localStorage.getItem('med_stock')) || 30;
-    let price = parseFloat(localStorage.getItem('med_price')) || 45.00;
-    let boxPills = parseInt(localStorage.getItem('med_boxPills')) || 30;
-    let dailyDose = parseInt(localStorage.getItem('med_dailyDose')) || 4;
-    let history = JSON.parse(localStorage.getItem('med_history')) || [];
+    function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
+
+    var stock = parseInt(getVal('med_stock', 30));
+    var price = parseFloat(getVal('med_price', 45.00));
+    var boxPills = parseInt(getVal('med_boxPills', 30));
+    var dailyDose = parseInt(getVal('med_dailyDose', 6));
+    var geminiKey = getVal('med_gemini_key', '');
+    
+    var historyData = [];
+    try {
+      var h = localStorage.getItem('med_history');
+      if (h) historyData = JSON.parse(h);
+    } catch(e) { historyData = []; }
 
     function updateUI() {
-      document.getElementById('stockDisplay').innerText = stock;
-      
-      let unitPrice = boxPills > 0 ? (price / boxPills) : 0;
+      document.getElementById('stockDisplay').innerText = isNaN(stock) ? 0 : stock;
+
+      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
+      var currentStockValue = stock * unitPrice;
+
       document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
+      document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
 
       if (stock <= 0) {
-        document.getElementById('predictionText').innerText = "Atenção: Seu estoque acabou!";
+        document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
+        document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
       } else if (dailyDose <= 0) {
-        document.getElementById('predictionText').innerText = "Configure uma dose diária válida.";
+        document.getElementById('predictionText').innerText = "Configure a dose diária.";
+        document.getElementById('daysRemainingText').innerText = "";
       } else {
-        let daysLeft = stock / dailyDose;
-        let today = new Date();
-        let endDate = new Date(today);
-        endDate.setDate(today.getDate() + Math.floor(daysLeft));
-        
-        let minDateStr = endDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-        
-        document.getElementById('predictionText').innerText = 
-          `Ao ritmo atual, seu estoque vai acabar no dia ${minDateStr}.`;
+        var daysLeft = stock / dailyDose;
+        var today = new Date();
+        today.setDate(today.getDate() + Math.floor(daysLeft));
+        var dateStr = today.toLocaleDateString('pt-BR');
+        document.getElementById('predictionText').innerText = "Estoque acaba em " + dateStr;
+        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia.";
       }
 
-      let historyHTML = '';
-      if (history.length === 0) {
-        historyHTML = '<p class="text-gray-400 italic">Nenhum registro até o momento.</p>';
-      } else {
-        history.slice(0, 10).forEach(item => {
-          historyHTML += `<div class="bg-gray-50 p-2 rounded flex justify-between"><span>✔️ ${item.text}</span> <span class="text-gray-400">${item.time}</span></div>`;
+      var now = new Date();
+      var pilsTakenThisMonth = 0;
+      if (Array.isArray(historyData)) {
+        historyData.forEach(function(item) {
+          if (item && item.timestamp) {
+            var d = new Date(item.timestamp);
+            if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) {
+              pilsTakenThisMonth += (item.amount || 0);
+            }
+          }
         });
       }
-      document.getElementById('historyList').innerHTML = historyHTML;
+
+      document.getElementById('spentThisMonthDisplay').innerText = 'R$ ' + (pilsTakenThisMonth * unitPrice).toFixed(2);
+      document.getElementById('monthPillsTaken').innerText = pilsTakenThisMonth;
+      document.getElementById('monthDailyAvg').innerText = (now.getDate() > 0 ? (pilsTakenThisMonth / now.getDate()).toFixed(1) : "0.0") + ' / dia';
+
+      var boxesNeeded = boxPills > 0 ? Math.ceil((dailyDose * 30) / boxPills) : 0;
+      document.getElementById('renewCostDisplay').innerText = 'R$ ' + (boxesNeeded * price).toFixed(2);
+      document.getElementById('boxesToBuyText').innerText = "Necessário comprar " + boxesNeeded + " caixa(s).";
+
+      var hHtml = '';
+      if (!Array.isArray(historyData) || historyData.length === 0) {
+        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>';
+      } else {
+        historyData.slice(0, 10).forEach(function(item) {
+          hHtml += '<div class="history-item"><div><b>✔️ Tomei ' + item.amount + ' CP(s)</b><div style="font-size:9px; color:#a78bfa;">' + (item.timeStr || '') + '</div></div><span style="color:#34d399; font-weight:700;">R$ ' + ((item.amount||0)*unitPrice).toFixed(2) + '</span></div>';
+        });
+      }
+      document.getElementById('historyList').innerHTML = hHtml;
 
       localStorage.setItem('med_stock', stock);
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
       localStorage.setItem('med_dailyDose', dailyDose);
-      localStorage.setItem('med_history', JSON.stringify(history));
+      localStorage.setItem('med_history', JSON.stringify(historyData));
     }
 
-    function takeDose(amount) {
+    function takeDose(amt) {
       if (stock <= 0) return;
-      stock = Math.max(0, stock - amount);
-      let now = new Date();
-      let timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      history.unshift({ text: `Tomei ${amount} comprimido(s)`, time: timeStr });
+      stock = Math.max(0, stock - amt);
+      var now = new Date();
+      var timeStr = now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      historyData.unshift({ amount: amt, timeStr: timeStr, timestamp: now.getTime() });
       updateUI();
     }
 
+    function takeCustomDose() {
+      var inp = document.getElementById('customAmount');
+      var val = parseInt(inp.value);
+      if (val && val > 0) {
+        takeDose(val);
+        inp.value = '';
+      }
+    }
+
+    function switchTab(name) {
+      var tabs = document.querySelectorAll('.tab-content');
+      for(var i=0; i<tabs.length; i++) tabs[i].classList.add('hidden');
+      
+      var btns = document.querySelectorAll('.nav-btn');
+      for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      document.getElementById('nav-' + name).classList.add('active');
+    }
+
     function toggleConfig() {
-      document.getElementById('configPanel').classList.toggle('hidden');
+      var cfg = document.getElementById('configPanel');
+      cfg.classList.toggle('hidden');
+      if (!cfg.classList.contains('hidden')) {
+        document.getElementById('inputPrice').value = price;
+        document.getElementById('inputBoxPills').value = boxPills;
+        document.getElementById('inputStock').value = stock;
+        document.getElementById('inputDaily').value = dailyDose;
+        document.getElementById('inputGeminiKey').value = geminiKey;
+      }
     }
 
     function saveConfig() {
@@ -149,11 +439,109 @@
       boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
       stock = parseInt(document.getElementById('inputStock').value) || 0;
       dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
+      
+      var rawKey = document.getElementById('inputGeminiKey').value || '';
+      geminiKey = rawKey.replace(/\s+/g, '').trim();
+
+      localStorage.setItem('med_gemini_key', geminiKey);
       toggleConfig();
       updateUI();
+      alert("Configurações salvas com sucesso!");
     }
 
+    function exportReport() {
+      var txt = "RELATORIO EXECUTIVO - CLT & SAUDE\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque Med: " + stock + " CPs\nSalario-Base: R$ 2229.26\nConsignados Totais: R$ 525.54\nCaixa Projetado: R$ 3114.63";
+      var blob = new Blob([txt], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Relatorio_Executivo.txt';
+      a.click();
+    }
+
+    function handleChatKeyPress(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    function sendChatMessage() {
+      var inputEl = document.getElementById('chatInput');
+      var text = inputEl.value.trim();
+      if (!text) return;
+
+      appendChatMessage(text, 'user');
+      inputEl.value = '';
+
+      if (!geminiKey) {
+        setTimeout(function() {
+          appendChatMessage("🔑 Insira a sua Chave API do Gemini no menu de configurações (⚙).", 'bot');
+        }, 300);
+        return;
+      }
+
+      appendChatMessage("✨ <i>Pensando...</i>", 'bot');
+      fetchGeminiReply(text);
+    }
+
+    function appendChatMessage(msg, sender) {
+      var box = document.getElementById('chatHistory');
+      var div = document.createElement('div');
+      div.className = 'chat-msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
+      div.innerHTML = msg.replace(/\n/g, '<br>');
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function fetchGeminiReply(userText) {
+      var promptText = "Você é o advogado e executivo financeiro pessoal. Responda com assertividade e sem rodeios, determinando as decisões financeiras com base nas regras CLT e consignados. Contexto: Salário-base R$ 2.229,26, Férias de 14/10 a 02/11, Consignados R$ 525,54 mensais (contratos PKT706750554, PKT390965956, PKT384671147, PKT252556451). Regra: Bloquear R$ 1000 das férias + R$ 1000 do proporcional de outubro. Pergunta: " + userText;
+
+      fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + geminiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        removeThinkingMsg();
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
+        } else if (data.error) {
+          appendChatMessage("⚠ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
+        } else {
+          appendChatMessage("⚠ Resposta inválida. Verifique sua Chave API.", 'bot');
+        }
+      })
+      .catch(function() {
+        removeThinkingMsg();
+        appendChatMessage("❌ Erro de conexão com os servidores da API.", 'bot');
+      });
+    }
+
+    function removeThinkingMsg() {
+      var msgs = document.querySelectorAll('#chatHistory .chat-msg');
+      if (msgs.length > 0 && msgs[msgs.length - 1].innerHTML.includes("Pensando...")) {
+        msgs[msgs.length - 1].remove();
+      }
+    }
+
+    function checkTimeAlert() {
+      var now = new Date();
+      var h = now.getHours();
+      var m = now.getMinutes();
+      var consciousnessBox = document.getElementById('consciousnessAlert');
+      if (h === 1 && m >= 20 && m <= 40) {
+        consciousnessBox.classList.remove('hidden');
+      } else {
+        consciousnessBox.classList.add('hidden');
+      }
+    }
+
+    loadSavedKeyToInput();
+    checkTimeAlert();
     updateUI();
+
+    function loadSavedKeyToInput() {
+      var savedKey = localStorage.getItem('med_gemini_key');
+      if (savedKey) geminiKey = savedKey;
+    }
   </script>
 </body>
 </html>
