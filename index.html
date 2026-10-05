@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zolpidem Control Pro</title>
+  <title>Zolpidem & Executivo Financeiro</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #090714; color: #f1f5f9; padding: 16px; padding-bottom: 95px; }
@@ -27,13 +27,15 @@
     .alert-danger .alert-title { color: #fb7185; }
     .alert-danger .alert-text { color: #ffe4e6; }
 
-    .stock-number { font-size: 54px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+    .stock-number { font-size: 46px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
     .stat-label { font-size: 9px; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-val { font-size: 14px; font-weight: 800; margin-top: 2px; }
     .text-purple { color: #c084fc; }
     .text-green { color: #34d399; }
+    .text-red { color: #f87171; }
+    .text-amber { color: #f59e0b; }
 
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
     .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; }
@@ -50,9 +52,6 @@
       border-radius: 12px !important;
       font-size: 13px !important;
       outline: none !important;
-      -webkit-user-select: text !important;
-      user-select: text !important;
-      pointer-events: auto !important;
     }
 
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
@@ -82,8 +81,8 @@
         <div class="box-stripe"></div>
       </div>
       <div>
-        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Zolpidem Control</h1>
-        <p style="font-size: 10px; color: #a855f7;">Gestão Médica & Alertas</p>
+        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Executivo Financeiro</h1>
+        <p style="font-size: 10px; color: #a855f7;">Gestão Jurídica, CLT & Saúde</p>
       </div>
     </div>
     <button onclick="toggleConfig()" class="btn-icon">⚙</button>
@@ -94,7 +93,7 @@
     <div class="alert-title">⚠ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
     <div class="alert-text">Os efeitos do medicamento estão no seu ápice agora!</div>
     <div class="alert-sub" style="margin-top: 6px; font-size: 11px; line-height: 1.4; color: #ffe4e6;">
-      💬 <b>Atenção:</b> Por favor, verifique e apague mensagens ou áudios que você não queira que as pessoas vejam amanhã, pois você pode ter agido sob o efeito do remédio.
+      💬 <b>Atenção:</b> Verifique mensagens ou áudios enviados para evitar arrependimentos amanhã sob efeito do remédio.
     </div>
   </div>
 
@@ -103,7 +102,7 @@
     <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">⚙ Configurações</h2>
     <div class="grid-2" style="margin-top:0;">
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Preço Caixa (R$)</label>
+        <label style="font-size: 10px; color: #a78bfa;">Preço Caixa Med (R$)</label>
         <input type="number" id="inputPrice" value="45.00" step="0.01">
       </div>
       <div>
@@ -115,23 +114,23 @@
         <input type="number" id="inputStock" value="30">
       </div>
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
+        <label style="font-size: 10px; color: #a78bfa;">Dose Diária Med</label>
         <input type="number" id="inputDaily" value="6">
       </div>
     </div>
     
     <div style="margin-top: 10px;">
       <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
-      <input type="text" id="inputGeminiKey" placeholder="Cole a sua Chave API aqui">
+      <input type="text" id="inputGeminiKey" placeholder="Cole sua chave API aqui">
     </div>
 
     <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
-  <!-- ABA 1: INÍCIO -->
+  <!-- ABA 1: INÍCIO (MEDICAMENTO) -->
   <div id="tab-home" class="tab-content">
     <div class="alert">
-      <div class="alert-title">⏳ Previsão de Término</div>
+      <div class="alert-title">⏳ Previsão de Término do Remédio</div>
       <div id="predictionText" class="alert-text">Calculando...</div>
       <div id="daysRemainingText" class="alert-sub">--</div>
     </div>
@@ -169,25 +168,87 @@
     </div>
   </div>
 
-  <!-- ABA 2: GASTOS -->
+  <!-- ABA 2: ADVOGADO & PLANEJAMENTO FINANCEIRO EXECUTIVO (NOVA) -->
+  <div id="tab-strategy" class="tab-content hidden">
+    <div class="alert alert-danger">
+      <div class="alert-title">🚨 DETERMINAÇÃO EXECUTIVA DE CAIXA</div>
+      <div class="alert-text" style="font-size: 11px; font-weight: normal; margin-top: 4px; line-height: 1.4;">
+        <b>Regra de Ouro:</b> Bloqueio estrito de <b>R$ 1.000,00</b> do pagamento das férias. Proibido gastar com supérfluos. O caixa-base de sobrevivência para outubro/novembro está matematicamente travado.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">📊 Dashboard de Projeção Out/Nov</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Reserva Intocável (Férias):</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Proporcional Outubro (Retorno):</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">1ª Parcela 13º (Novembro):</span>
+          <span class="text-amber" style="font-weight: 800;">~R$ 1.114,63</span>
+        </div>
+        <div class="history-item" style="border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.1);">
+          <span style="color: #f3e8ff; font-weight: 800;">CAIXA TOTAL GARANTIDO:</span>
+          <span class="text-purple" style="font-weight: 900; font-size: 14px;">R$ 3.114,63</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">⚖️ Decisões Jurídicas & CLT Aplicadas</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #e2e8f0; line-height: 1.4;">
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>1. Início das Férias (14/10):</b> Regulamentado corretamente conforme o artigo 134 da CLT (proibido iniciar nos 2 dias que antecedem o DSR/repouso semanal).
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>2. Abono Pecuniário (10 dias):</b> Conversão legal garantida pelo artigo 143 da CLT. Vendido e pago junto com as férias.
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>3. Consignados (R$ 525,54/mês):</b> Provisionamento em folha confirmado pelo RH. Sem duplicidade de cobrança por competência cruzada.
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>4. 13º Salário (1ª Parcela):</b> Isenta de INSS na primeira parcela (desconto consolidado apenas na folha final de dezembro).
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">📑 Contratos de Empréstimo Ativos</h2>
+      <div class="history-item">
+        <div><b>PKT706750554</b> (36x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 65,32</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT390965956</b> (36x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 71,53</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT384671147</b> (48x - 4,8%)</div>
+        <span class="text-red" style="font-weight:700;">R$ 301,77</span>
+      </div>
+      <div class="history-item">
+        <div><b>PKT252556451</b> (Holerite)</div>
+        <span class="text-red" style="font-weight:700;">R$ 86,92</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 3: CUSTOS DE SAÚDE -->
   <div id="tab-costs" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Análise Financeira</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Custos de Saúde</h2>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <div class="history-item">
           <div>
             <div style="color: #cbd5e1;">Gasto Real no Mês</div>
-            <div style="font-size: 9px; color: #64748b;">Baseado no histórico</div>
+            <div style="font-size: 9px; color: #64748b;">Consumo de comprimidos</div>
           </div>
           <div id="spentThisMonthDisplay" style="font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
-        </div>
-
-        <div class="history-item">
-          <div>
-            <div style="color: #cbd5e1;">Estimativa Mensal</div>
-            <div style="font-size: 9px; color: #64748b;">Com base na dose diária</div>
-          </div>
-          <div id="monthlySpendDisplay" style="font-size: 15px; font-weight: 800; color: #c084fc;">R$ 0,00</div>
         </div>
 
         <div class="history-item" style="border-color: rgba(245, 158, 11, 0.4);">
@@ -201,11 +262,11 @@
     </div>
   </div>
 
-  <!-- ABA 3: RELATÓRIOS -->
+  <!-- ABA 4: RELATÓRIOS -->
   <div id="tab-reports" class="tab-content hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório do Mês</h2>
+        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório Geral</h2>
         <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
       </div>
       <div class="grid-2">
@@ -221,24 +282,21 @@
     </div>
 
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico</p>
-        <button onclick="clearHistory()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
-      </div>
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Histórico de Consumo</p>
       <div id="historyList">
-        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registro.</p>
+        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>
       </div>
     </div>
   </div>
 
-  <!-- ABA 4: GEMINI CHAT -->
+  <!-- ABA 5: GEMINI CHAT (BLINDADA) -->
   <div id="tab-chat" class="tab-content hidden">
     <div class="card">
       <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
       
       <div id="chatHistory" class="chat-box">
         <div class="chat-msg msg-bot">
-          Olá! Pode me perguntar qualquer coisa, pedir relatórios ou análises de gastos.
+          Olá! Sou seu advogado e executivo financeiro. As diretrizes de caixa e leis da CLT estão ativas. Pergunte o que precisar!
         </div>
       </div>
 
@@ -249,30 +307,13 @@
     </div>
   </div>
 
-  <!-- ABA 5: DICAS -->
-  <div id="tab-tips" class="tab-content hidden">
-    <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">💡 Orientações de Uso</h2>
-      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #cbd5e1;">
-        <div class="stat-box">
-          <p style="font-weight: 700; color: #f59e0b; margin-bottom: 2px;">⚠️ Momento Correto</p>
-          <p>Tome o Zolpidem imediatamente antes de se deitar na cama. O efeito é de ação rápida.</p>
-        </div>
-        <div class="stat-box">
-          <p style="font-weight: 700; color: #c084fc; margin-bottom: 2px;">💊 Medicamento Genérico</p>
-          <p>O genérico possui idêntico princípio ativo (Hemitartarato de Zolpidem 10mg) e eficácia garantida.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAVEGAÇÃO FIXA -->
+  <!-- NAVEGAÇÃO FIXA (5 ABAS) -->
   <div class="nav-bar">
     <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
-    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Gastos</button>
-    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatórios</button>
+    <button onclick="switchTab('strategy')" id="nav-strategy" class="nav-btn"><span>💼</span>Executivo</button>
+    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Saúde</button>
+    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatório</button>
     <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>Gemini</button>
-    <button onclick="switchTab('tips')" id="nav-tips" class="nav-btn"><span>💡</span>Dicas</button>
   </div>
 
   <script>
@@ -283,8 +324,8 @@
     var boxPills = parseInt(getVal('med_boxPills', 30));
     var dailyDose = parseInt(getVal('med_dailyDose', 6));
     var geminiKey = getVal('med_gemini_key', '');
+    
     var historyData = [];
-
     try {
       var h = localStorage.getItem('med_history');
       if (h) historyData = JSON.parse(h);
@@ -295,11 +336,9 @@
 
       var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
       var currentStockValue = stock * unitPrice;
-      var monthlyCost = dailyDose * 30 * unitPrice;
 
       document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
-      document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
@@ -339,7 +378,7 @@
 
       var hHtml = '';
       if (!Array.isArray(historyData) || historyData.length === 0) {
-        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registro.</p>';
+        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>';
       } else {
         historyData.slice(0, 10).forEach(function(item) {
           hHtml += '<div class="history-item"><div><b>✔️ Tomei ' + item.amount + ' CP(s)</b><div style="font-size:9px; color:#a78bfa;">' + (item.timeStr || '') + '</div></div><span style="color:#34d399; font-weight:700;">R$ ' + ((item.amount||0)*unitPrice).toFixed(2) + '</span></div>';
@@ -369,13 +408,6 @@
       if (val && val > 0) {
         takeDose(val);
         inp.value = '';
-      }
-    }
-
-    function clearHistory() {
-      if (confirm("Deseja apagar o histórico?")) {
-        historyData = [];
-        updateUI();
       }
     }
 
@@ -418,12 +450,11 @@
     }
 
     function exportReport() {
-      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
-      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
+      var txt = "RELATORIO EXECUTIVO - CLT & SAUDE\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque Med: " + stock + " CPs\nSalario-Base: R$ 2229.26\nConsignados Totais: R$ 525.54\nCaixa Projetado: R$ 3114.63";
       var blob = new Blob([txt], { type: 'text/plain' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'Relatorio_Zolpidem.txt';
+      a.download = 'Relatorio_Executivo.txt';
       a.click();
     }
 
@@ -460,9 +491,8 @@
     }
 
     function fetchGeminiReply(userText) {
-      var promptText = "Você é o Gemini. Contexto do aplicativo: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda amigavelmente: " + userText;
+      var promptText = "Você é o advogado e executivo financeiro pessoal. Responda com assertividade e sem rodeios, determinando as decisões financeiras com base nas regras CLT e consignados. Contexto: Salário-base R$ 2.229,26, Férias de 14/10 a 02/11, Consignados R$ 525,54 mensais (contratos PKT706750554, PKT390965956, PKT384671147, PKT252556451). Regra: Bloquear R$ 1000 das férias + R$ 1000 do proporcional de outubro. Pergunta: " + userText;
 
-      // URL atualizada com o modelo gemini-3.8-flash correto
       fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + geminiKey, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -474,7 +504,7 @@
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
         } else if (data.error) {
-          appendChatMessage("⚠️ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
+          appendChatMessage("⚠ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
         } else {
           appendChatMessage("⚠ Resposta inválida. Verifique sua Chave API.", 'bot');
         }
@@ -504,16 +534,14 @@
       }
     }
 
-    function loadSavedKeyToInput() {
-      var savedKey = localStorage.getItem('med_gemini_key');
-      if (savedKey) {
-        geminiKey = savedKey;
-      }
-    }
-
     loadSavedKeyToInput();
     checkTimeAlert();
     updateUI();
+
+    function loadSavedKeyToInput() {
+      var savedKey = localStorage.getItem('med_gemini_key');
+      if (savedKey) geminiKey = savedKey;
+    }
   </script>
 </body>
 </html>
