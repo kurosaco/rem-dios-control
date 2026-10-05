@@ -41,7 +41,7 @@
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
     
-    /* INPUTS LIVRES DE TRAVAMENTO */
+    /* PROPRIEDADES NATIVAS LIBERADAS PARA COLAGEM E TECLADO */
     input[type="number"], input[type="text"] {
       width: 100%;
       background: #0f0b1e !important;
@@ -55,7 +55,7 @@
       user-select: text !important;
       pointer-events: auto !important;
     }
-    
+
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
     /* CHAT GEMINI COMPLETO */
@@ -67,7 +67,7 @@
     .chip-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; }
     .chip-btn { background: #1e1538; border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; font-size: 10px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap; cursor: pointer; }
 
-    /* NAVEGAÇÃO FIXA (5 ABAS) */
+    /* NAVEGAÇÃO FIXA */
     .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
     .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: 700; cursor: pointer; }
     .nav-btn span { font-size: 16px; margin-bottom: 2px; }
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <!-- CAMPO DE CHAVE DE API ISOLADO PARA EVITAR TRAVAMENTOS -->
+    <!-- CAMPO DA CHAVE DE API COMPLETAMENTE ISOLADO DO RENDERER -->
     <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(168, 85, 247, 0.2);">
       <label style="font-size: 10px; color: #a78bfa; font-weight: 700;">Chave API Gemini</label>
       <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui" style="margin-top: 4px;">
@@ -211,7 +211,7 @@
   <!-- ABA 3: RELATÓRIOS -->
   <div id="tab-reports" class="tab-content hidden">
     <div class="card">
-      <div style="display: flex; justify-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório do Mês</h2>
         <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
       </div>
@@ -228,7 +228,7 @@
     </div>
 
     <div class="card">
-      <div style="display: flex; justify-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico</p>
         <button onclick="clearHistory()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
       </div>
@@ -364,5 +364,4 @@
       document.getElementById('historyList').innerHTML = hHtml;
 
       localStorage.setItem('med_stock', stock);
-      localStorage.setItem('med_price', price);
-      localStorage.setItem('m
+      localStorage.setItem('med_
