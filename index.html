@@ -40,34 +40,9 @@
     .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-    
-    /* PROPRIEDADES NATIVAS LIBERADAS PARA COLAGEM E TECLADO */
-    input[type="number"], input[type="text"] {
-      width: 100%;
-      background: #0f0b1e !important;
-      border: 1px solid #6b21a8 !important;
-      color: #ffffff !important;
-      padding: 12px !important;
-      border-radius: 12px !important;
-      font-size: 13px !important;
-      outline: none !important;
-      -webkit-user-select: text !important;
-      user-select: text !important;
-      pointer-events: auto !important;
-    }
-
+    input[type="number"], input[type="text"] { width: 100%; background: #0f0b1e; border: 1px solid #4c1d95; color: #fff; padding: 11px; border-radius: 12px; font-size: 13px; outline: none; }
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
-    /* CHAT GEMINI COMPLETO */
-    .chat-box { height: 290px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; padding-right: 4px; }
-    .chat-msg { padding: 12px 14px; border-radius: 16px; font-size: 12px; line-height: 1.5; max-width: 90%; word-break: break-word; }
-    .msg-user { background: #6b21a8; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; box-shadow: 0 4px 12px rgba(107, 33, 168, 0.3); }
-    .msg-bot { background: #1a1230; color: #e9d5ff; align-self: flex-start; border: 1px solid rgba(168, 85, 247, 0.25); border-bottom-left-radius: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-
-    .chip-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; }
-    .chip-btn { background: #1e1538; border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; font-size: 10px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap; cursor: pointer; }
-
-    /* NAVEGAÇÃO FIXA */
     .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
     .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: 700; cursor: pointer; }
     .nav-btn span { font-size: 16px; margin-bottom: 2px; }
@@ -75,6 +50,11 @@
 
     .hidden { display: none !important; }
     .history-item { background: rgba(15, 11, 30, 0.5); border: 1px solid rgba(168, 85, 247, 0.15); padding: 10px 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+    
+    .chat-box { height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .chat-msg { padding: 10px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; max-width: 88%; word-break: break-word; }
+    .msg-user { background: #6b21a8; color: #fff; align-self: flex-end; }
+    .msg-bot { background: #1a1230; color: #e9d5ff; align-self: flex-start; border: 1px solid rgba(168, 85, 247, 0.2); }
   </style>
 </head>
 <body>
@@ -125,14 +105,13 @@
         <input type="number" id="inputDaily" value="6">
       </div>
     </div>
-
-    <!-- CAMPO DA CHAVE DE API COMPLETAMENTE ISOLADO DO RENDERER -->
-    <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(168, 85, 247, 0.2);">
-      <label style="font-size: 10px; color: #a78bfa; font-weight: 700;">Chave API Gemini</label>
-      <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui" style="margin-top: 4px;">
+    
+    <div style="margin-top: 10px;">
+      <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
+      <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui">
     </div>
 
-    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 14px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
+    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
   <!-- ABA 1: INÍCIO -->
@@ -238,28 +217,19 @@
     </div>
   </div>
 
-  <!-- ABA 4: GEMINI COMPLETO -->
+  <!-- ABA 4: GEMINI CHAT -->
   <div id="tab-chat" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 4px;">✨ Gemini AI Completo</h2>
-      <p style="font-size: 10px; color: #94a3b8; margin-bottom: 10px;">Converse sobre qualquer assunto, solicite relatórios ou simulações ilimitadas.</p>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
       
       <div id="chatHistory" class="chat-box">
         <div class="chat-msg msg-bot">
-          👋 Olá! Sou o <b>Gemini</b> integrado ao seu aplicativo.<br><br>
-          Tenho acesso aos seus dados de estoque e finanças em tempo real, mas também posso conversar sobre qualquer outro assunto, tirar dúvidas gerais ou criar relatórios detalhados para você.
+          Olá! Pode me perguntar qualquer coisa, pedir relatórios ou análises de gastos.
         </div>
       </div>
 
-      <!-- PROMPTS RÁPIDOS -->
-      <div class="chip-container">
-        <button onclick="sendQuickPrompt('Monte um relatório detalhado de consumo e finanças')" class="chip-btn">📊 Relatório Completo</button>
-        <button onclick="sendQuickPrompt('Faça uma projeção de custos para os próximos 3 meses')" class="chip-btn">🔮 Projeção 3 Meses</button>
-        <button onclick="sendQuickPrompt('Me ajude a planejar minhas despesas do mês')" class="chip-btn">💡 Planejamento</button>
-      </div>
-
       <div class="flex-gap">
-        <input type="text" id="chatInput" placeholder="Pergunte qualquer coisa ao Gemini..." onkeypress="handleChatKeyPress(event)">
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." onkeypress="handleChatKeyPress(event)">
         <button onclick="sendChatMessage()" class="btn-submit" style="background: #9333ea; border:none;">Enviar</button>
       </div>
     </div>
@@ -364,4 +334,160 @@
       document.getElementById('historyList').innerHTML = hHtml;
 
       localStorage.setItem('med_stock', stock);
-      localStorage.setItem('med_
+      localStorage.setItem('med_price', price);
+      localStorage.setItem('med_boxPills', boxPills);
+      localStorage.setItem('med_dailyDose', dailyDose);
+      localStorage.setItem('med_history', JSON.stringify(historyData));
+    }
+
+    function takeDose(amt) {
+      if (stock <= 0) return;
+      stock = Math.max(0, stock - amt);
+      var now = new Date();
+      var timeStr = now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      historyData.unshift({ amount: amt, timeStr: timeStr, timestamp: now.getTime() });
+      updateUI();
+    }
+
+    function takeCustomDose() {
+      var inp = document.getElementById('customAmount');
+      var val = parseInt(inp.value);
+      if (val && val > 0) {
+        takeDose(val);
+        inp.value = '';
+      }
+    }
+
+    function clearHistory() {
+      if (confirm("Deseja apagar o histórico?")) {
+        historyData = [];
+        updateUI();
+      }
+    }
+
+    function switchTab(name) {
+      var tabs = document.querySelectorAll('.tab-content');
+      for(var i=0; i<tabs.length; i++) tabs[i].classList.add('hidden');
+      
+      var btns = document.querySelectorAll('.nav-btn');
+      for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      document.getElementById('nav-' + name).classList.add('active');
+    }
+
+    function toggleConfig() {
+      var cfg = document.getElementById('configPanel');
+      cfg.classList.toggle('hidden');
+      if (!cfg.classList.contains('hidden')) {
+        document.getElementById('inputPrice').value = price;
+        document.getElementById('inputBoxPills').value = boxPills;
+        document.getElementById('inputStock').value = stock;
+        document.getElementById('inputDaily').value = dailyDose;
+        document.getElementById('inputGeminiKey').value = geminiKey;
+      }
+    }
+
+    function saveConfig() {
+      price = parseFloat(document.getElementById('inputPrice').value) || 0;
+      boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
+      stock = parseInt(document.getElementById('inputStock').value) || 0;
+      dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
+      geminiKey = (document.getElementById('inputGeminiKey').value || '').trim();
+      
+      localStorage.setItem('med_gemini_key', geminiKey);
+      toggleConfig();
+      updateUI();
+    }
+
+    function exportReport() {
+      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
+      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
+      var blob = new Blob([txt], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Relatorio_Zolpidem.txt';
+      a.click();
+    }
+
+    /* SISTEMA DE CHAT GEMINI SEGURO */
+    function handleChatKeyPress(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    function sendChatMessage() {
+      var inputEl = document.getElementById('chatInput');
+      var text = inputEl.value.trim();
+      if (!text) return;
+
+      appendChatMessage(text, 'user');
+      inputEl.value = '';
+
+      if (!geminiKey) {
+        setTimeout(function() {
+          appendChatMessage("🔑 Abra as configurações (⚙) e insira sua API Key do Gemini.", 'bot');
+        }, 300);
+        return;
+      }
+
+      appendChatMessage("✨ <i>Pensando...</i>", 'bot');
+      fetchGeminiReply(text);
+    }
+
+    function appendChatMessage(msg, sender) {
+      var box = document.getElementById('chatHistory');
+      var div = document.createElement('div');
+      div.className = 'chat-msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
+      div.innerHTML = msg.replace(/\n/g, '<br>');
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function fetchGeminiReply(userText) {
+      var unitPrice = boxPills > 0 ? (price / boxPills) : 0;
+      var promptText = "Você é o Gemini. Contexto do app do usuário: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda à pergunta do usuário: " + userText;
+
+      fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        removeThinkingMsg();
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
+        } else {
+          appendChatMessage("⚠️ Resposta inválida. Verifique sua Chave API nas configurações.", 'bot');
+        }
+      })
+      .catch(function() {
+        removeThinkingMsg();
+        appendChatMessage("❌ Erro de conexão com o Gemini.", 'bot');
+      });
+    }
+
+    function removeThinkingMsg() {
+      var msgs = document.querySelectorAll('#chatHistory .chat-msg');
+      if (msgs.length > 0 && msgs[msgs.length - 1].innerHTML.includes("Pensando...")) {
+        msgs[msgs.length - 1].remove();
+      }
+    }
+
+    function checkTimeAlert() {
+      var now = new Date();
+      var h = now.getHours();
+      var m = now.getMinutes();
+      var consciousnessBox = document.getElementById('consciousnessAlert');
+      if (h === 1 && m >= 20 && m <= 40) {
+        consciousnessBox.classList.remove('hidden');
+      } else {
+        consciousnessBox.classList.add('hidden');
+      }
+    }
+
+    checkTimeAlert();
+    updateUI();
+  </script>
+</body>
+</html>
