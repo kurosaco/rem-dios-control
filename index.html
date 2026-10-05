@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,24 +7,24 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 text-gray-800">
-  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 space-y-6">
+  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 space-y-5">
     
     <!-- Cabeçalho -->
-    <div class="flex justify-between items-center border-b pb-4">
+    <div class="flex justify-between items-center border-b pb-3">
       <div>
         <h1 class="text-xl font-bold text-teal-700">Zolpidem Controller</h1>
-        <p class="text-xs text-gray-500">Controle de Estoque & Custos</p>
+        <p class="text-xs text-gray-500">Controle Dinâmico & Custos</p>
       </div>
-      <button onclick="toggleConfig()" class="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
+      <button onclick="toggleConfig()" class="bg-gray-100 p-2 rounded-full hover:bg-gray-200 text-sm">
         ⚙️ Config
       </button>
     </div>
 
     <!-- Painel de Configuração -->
     <div id="configPanel" class="hidden bg-gray-50 p-4 rounded-xl border space-y-3">
-      <h2 class="font-semibold text-sm text-gray-700">Configurações do Remédio</h2>
+      <h2 class="font-semibold text-sm text-gray-700">Configurações Principais</h2>
       <div>
-        <label class="text-xs text-gray-500">Valor da Caixa (R$)</label>
+        <label class="text-xs text-gray-500">Preço da Caixa (R$)</label>
         <input type="number" id="inputPrice" value="45.00" step="0.01" class="w-full border rounded p-2 text-sm">
       </div>
       <div>
@@ -33,54 +32,77 @@
         <input type="number" id="inputBoxPills" value="30" class="w-full border rounded p-2 text-sm">
       </div>
       <div>
-        <label class="text-xs text-gray-500">Estoque Atual</label>
+        <label class="text-xs text-gray-500">Estoque Atual em Mãos</label>
         <input type="number" id="inputStock" value="30" class="w-full border rounded p-2 text-sm">
       </div>
       <div>
-        <label class="text-xs text-gray-500">Consumo Diário Padrão</label>
-        <input type="number" id="inputDaily" value="4" class="w-full border rounded p-2 text-sm">
+        <label class="text-xs text-gray-500">Dose Diária Padrão (Mínimo)</label>
+        <input type="number" id="inputDaily" value="6" class="w-full border rounded p-2 text-sm">
       </div>
       <button onclick="saveConfig()" class="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold text-sm">Salvar Alterações</button>
     </div>
 
-    <!-- Alerta de Previsão -->
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl">
-      <div class="flex items-start">
-        <span class="text-xl mr-2">⚠️</span>
-        <div>
-          <p class="text-xs font-bold text-amber-800 uppercase">Previsão de Estoque</p>
-          <p id="predictionText" class="text-sm font-semibold text-amber-900 mt-1">Calculando...</p>
+    <!-- Card de Previsão de Término -->
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-lg">📅</span>
+        <p class="text-xs font-bold text-amber-800 uppercase">Previsão de Término</p>
+      </div>
+      <p id="predictionText" class="text-sm font-semibold text-amber-900">Calculando...</p>
+      <p id="daysRemainingText" class="text-xs text-amber-700">--</p>
+    </div>
+
+    <!-- Card Principal de Estoque e Finanças -->
+    <div class="bg-teal-50 rounded-2xl p-5 border border-teal-100 space-y-4">
+      <div class="text-center">
+        <p class="text-xs font-semibold uppercase text-teal-600 tracking-wider">Estoque Atual</p>
+        <div class="text-5xl font-black text-teal-800 my-1" id="stockDisplay">30</div>
+        <p class="text-xs text-gray-500">comprimidos em mãos</p>
+      </div>
+
+      <div class="pt-3 border-t border-teal-200/60 text-xs space-y-2">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Valor em Estoque:</span>
+          <span id="stockValueDisplay" class="font-bold text-teal-900">R$ 0,00</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Custo por Comprimido:</span>
+          <span id="unitPriceDisplay" class="font-bold text-green-700">R$ 0,00</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Gasto Estimado (Mensal):</span>
+          <span id="monthlySpendDisplay" class="font-bold text-gray-700">R$ 0,00</span>
         </div>
       </div>
     </div>
 
-    <!-- Card Principal de Estoque -->
-    <div class="bg-teal-50 rounded-2xl p-6 text-center border border-teal-100 space-y-2">
-      <p class="text-xs font-semibold uppercase text-teal-600 tracking-wider">Estoque Atual</p>
-      <div class="text-5xl font-black text-teal-800" id="stockDisplay">30</div>
-      <p class="text-xs text-gray-500">comprimidos restantes</p>
+    <!-- Registro de Doses -->
+    <div class="space-y-3">
+      <p class="text-xs font-bold text-gray-500 uppercase">Registrar Consumo (Ao Vivo)</p>
       
-      <div class="pt-4 border-t border-teal-200/60 flex justify-between items-center text-sm">
-        <span class="text-gray-600">Custo por comprimido:</span>
-        <span id="unitPriceDisplay" class="font-bold text-green-700">R$ 1,50</span>
+      <!-- Botões Rápidos -->
+      <div class="grid grid-cols-4 gap-2">
+        <button onclick="takeDose(1)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+1</button>
+        <button onclick="takeDose(3)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+3</button>
+        <button onclick="takeDose(4)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-2 rounded-xl text-base">+4</button>
+        <button onclick="takeDose(6)" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-xl text-base">+6</button>
+      </div>
+
+      <!-- Campo para Quantidade Personalizada -->
+      <div class="flex gap-2 pt-1">
+        <input type="number" id="customAmount" placeholder="Outra qte (ex: 2, 5)" class="border rounded-xl px-3 py-2 text-xs w-full">
+        <button onclick="takeCustomDose()" class="bg-gray-800 text-white font-semibold text-xs px-4 py-2 rounded-xl">Registrar</button>
       </div>
     </div>
 
-    <!-- Checkpoint / Botões Rápidos -->
+    <!-- Histórico de Atividade -->
     <div class="space-y-2">
-      <p class="text-xs font-bold text-gray-500 uppercase">Registrar Dose (Checkpoint)</p>
-      <div class="grid grid-cols-3 gap-2">
-        <button onclick="takeDose(1)" class="bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold py-3 rounded-xl text-lg">+1</button>
-        <button onclick="takeDose(3)" class="bg-teal-200 hover:bg-teal-300 text-teal-800 font-bold py-3 rounded-xl text-lg">+3</button>
-        <button onclick="takeDose(4)" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-lg">+4</button>
+      <div class="flex justify-between items-center">
+        <p class="text-xs font-bold text-gray-500 uppercase">Histórico Recente</p>
+        <button onclick="clearHistory()" class="text-[10px] text-red-500 hover:underline">Limpar</button>
       </div>
-    </div>
-
-    <!-- Histórico -->
-    <div class="space-y-2">
-      <p class="text-xs font-bold text-gray-500 uppercase">Histórico do Dia</p>
-      <div id="historyList" class="space-y-1 max-h-40 overflow-y-auto text-xs text-gray-600">
-        <p class="text-gray-400 italic">Nenhum registro hoje.</p>
+      <div id="historyList" class="space-y-1 max-h-36 overflow-y-auto text-xs text-gray-600">
+        <p class="text-gray-400 italic">Nenhum registro até o momento.</p>
       </div>
     </div>
 
@@ -90,41 +112,54 @@
     let stock = parseInt(localStorage.getItem('med_stock')) || 30;
     let price = parseFloat(localStorage.getItem('med_price')) || 45.00;
     let boxPills = parseInt(localStorage.getItem('med_boxPills')) || 30;
-    let dailyDose = parseInt(localStorage.getItem('med_dailyDose')) || 4;
+    let dailyDose = parseInt(localStorage.getItem('med_dailyDose')) || 6;
     let history = JSON.parse(localStorage.getItem('med_history')) || [];
 
     function updateUI() {
       document.getElementById('stockDisplay').innerText = stock;
       
       let unitPrice = boxPills > 0 ? (price / boxPills) : 0;
-      document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
+      let currentStockValue = stock * unitPrice;
+      let monthlyCost = dailyDose * 30 * unitPrice;
 
+      document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
+      document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
+      document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
+
+      // Cálculo de término e tempo restante
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Seu estoque acabou!";
+        document.getElementById('daysRemainingText').innerText = "Recarregue seu estoque nas configurações.";
       } else if (dailyDose <= 0) {
-        document.getElementById('predictionText').innerText = "Configure uma dose diária válida.";
+        document.getElementById('predictionText').innerText = "Defina uma dose diária válida.";
+        document.getElementById('daysRemainingText').innerText = "";
       } else {
         let daysLeft = stock / dailyDose;
         let today = new Date();
         let endDate = new Date(today);
         endDate.setDate(today.getDate() + Math.floor(daysLeft));
         
-        let minDateStr = endDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+        let dateStr = endDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         
-        document.getElementById('predictionText').innerText = 
-          `Ao ritmo atual, seu estoque vai acabar no dia ${minDateStr}.`;
+        document.getElementById('predictionText').innerText = `Estoque acaba no dia ${dateStr}`;
+        document.getElementById('daysRemainingText').innerText = `Resta(m) aproximadamente ${daysLeft.toFixed(1)} dia(s) ao ritmo de ${dailyDose}/dia.`;
       }
 
+      // Histórico
       let historyHTML = '';
       if (history.length === 0) {
-        historyHTML = '<p class="text-gray-400 italic">Nenhum registro até o momento.</p>';
+        historyHTML = '<p class="text-gray-400 italic">Nenhum registro no histórico.</p>';
       } else {
         history.slice(0, 10).forEach(item => {
-          historyHTML += `<div class="bg-gray-50 p-2 rounded flex justify-between"><span>✔️ ${item.text}</span> <span class="text-gray-400">${item.time}</span></div>`;
+          historyHTML += `<div class="bg-gray-50 p-2 rounded flex justify-between items-center">
+            <span>✔️ Tomei ${item.amount} comprimido(s)</span> 
+            <span class="text-gray-400 text-[10px]">${item.time}</span>
+          </div>`;
         });
       }
       document.getElementById('historyList').innerHTML = historyHTML;
 
+      // Salvar
       localStorage.setItem('med_stock', stock);
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
@@ -136,9 +171,25 @@
       if (stock <= 0) return;
       stock = Math.max(0, stock - amount);
       let now = new Date();
-      let timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      history.unshift({ text: `Tomei ${amount} comprimido(s)`, time: timeStr });
+      let timeStr = `${now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+      history.unshift({ amount: amount, time: timeStr });
       updateUI();
+    }
+
+    function takeCustomDose() {
+      let input = document.getElementById('customAmount');
+      let amount = parseInt(input.value);
+      if (amount && amount > 0) {
+        takeDose(amount);
+        input.value = '';
+      }
+    }
+
+    function clearHistory() {
+      if (confirm("Deseja limpar todo o histórico?")) {
+        history = [];
+        updateUI();
+      }
     }
 
     function toggleConfig() {
@@ -157,5 +208,4 @@
     updateUI();
   </script>
 </body>
-          </html>
-          
+</html>
