@@ -1,4 +1,4 @@
-l<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -40,7 +40,22 @@ l<!DOCTYPE html>
     .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-    input[type="number"], input[type="text"] { width: 100%; background: #0f0b1e; border: 1px solid #4c1d95; color: #fff; padding: 11px; border-radius: 12px; font-size: 13px; outline: none; }
+    
+    /* INPUTS LIVRES DE TRAVAMENTO */
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      background: #0f0b1e !important;
+      border: 1px solid #6b21a8 !important;
+      color: #ffffff !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      font-size: 13px !important;
+      outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
+    }
+    
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
     /* CHAT GEMINI COMPLETO */
@@ -51,7 +66,6 @@ l<!DOCTYPE html>
 
     .chip-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; }
     .chip-btn { background: #1e1538; border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; font-size: 10px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap; cursor: pointer; }
-    .chip-btn:active { background: #6b21a8; color: #fff; }
 
     /* NAVEGAÇÃO FIXA (5 ABAS) */
     .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
@@ -111,11 +125,14 @@ l<!DOCTYPE html>
         <input type="number" id="inputDaily" value="6">
       </div>
     </div>
-    <div style="margin-top: 10px;">
-      <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini (Para IA Completa)</label>
-      <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui">
+
+    <!-- CAMPO DE CHAVE DE API ISOLADO PARA EVITAR TRAVAMENTOS -->
+    <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(168, 85, 247, 0.2);">
+      <label style="font-size: 10px; color: #a78bfa; font-weight: 700;">Chave API Gemini</label>
+      <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui" style="margin-top: 4px;">
     </div>
-    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
+
+    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 14px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
   <!-- ABA 1: INÍCIO -->
@@ -348,13 +365,4 @@ l<!DOCTYPE html>
 
       localStorage.setItem('med_stock', stock);
       localStorage.setItem('med_price', price);
-      localStorage.setItem('med_boxPills', boxPills);
-      localStorage.setItem('med_dailyDose', dailyDose);
-      localStorage.setItem('med_history', JSON.stringify(historyData));
-    }
-
-    function takeDose(amt) {
-      if (stock <= 0) return;
-      stock = Math.max(0, stock - amt);
-      var now = new Date();
-      var timeStr = now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) + ' às ' + now.toLocaleTim
+      localStorage.setItem('m
