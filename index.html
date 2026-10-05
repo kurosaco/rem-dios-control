@@ -1,176 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#090714">
-<title>MedControl</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: radial-gradient(circle at top, #1a0f3d 0%, #090714 60%); min-height: 100vh; color: #f1f5f9; padding: 16px; padding-bottom: 100px; overflow-x: hidden; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Zolpidem & Finanças Pro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #090714; color: #f1f5f9; padding: 16px; padding-bottom: 95px; }
 
-  .card { background: linear-gradient(145deg, #130f26, #1a1535); border-radius: 20px; padding: 18px; margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.4); animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background: linear-gradient(145deg, #130f26, #1a1535); border-radius: 20px; padding: 18px; margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .header { display: flex; justify-content: space-between; align-items: center; }
 
-  .header { display: flex; justify-content: space-between; align-items: center; }
+    .box-icon { width: 44px; height: 38px; background: #ffffff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #cbd5e1; box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3); }
+    .box-g { background: #fae8ff; height: 11px; text-align: center; font-size: 7px; font-weight: 900; color: #7e22ce; line-height: 11px; }
+    .box-title { text-align: center; font-size: 7px; font-weight: 800; color: #1e1b4b; text-transform: uppercase; line-height: 10px; }
+    .box-stripe { background: #9333ea; height: 8px; }
 
-  .pill-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #9333ea, #c084fc); display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 20px rgba(192,132,252,0.7), inset 0 0 8px rgba(255,255,255,0.3); position: relative; overflow: hidden; }
-  .pill-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%); animation: pillShine 3s infinite; }
-  @keyframes pillShine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    .btn-icon { background: #261c47; border: 1px solid #4c1d95; color: #c084fc; padding: 10px; border-radius: 12px; font-size: 16px; cursor: pointer; }
 
-  .neon-name { font-size: 15px; font-weight: 900; color: #f3e8ff; text-shadow: 0 0 6px rgba(192,132,252,0.9), 0 0 12px rgba(168,85,247,0.6), 0 0 20px rgba(147,51,234,0.4); letter-spacing: 0.5px; }
-  .header p { font-size: 10px; color: #a855f7; }
+    .alert { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 14px; border-radius: 16px; margin-bottom: 14px; }
+    .alert-title { color: #c084fc; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .alert-text { color: #f3e8ff; font-size: 13px; font-weight: 700; margin-top: 2px; }
+    .alert-sub { color: #e9d5ff; font-size: 11px; margin-top: 2px; }
 
-  .btn-icon { background: #261c47; border: 1px solid #4c1d95; color: #c084fc; padding: 10px 12px; border-radius: 12px; font-size: 16px; cursor: pointer; transition: transform 0.15s; }
-  .btn-icon:active { transform: scale(0.92); }
+    .alert-danger { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; }
+    .alert-danger .alert-title { color: #fb7185; }
+    .alert-danger .alert-text { color: #ffe4e6; }
 
-  .alert { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 14px; border-radius: 16px; margin-bottom: 14px; }
-  .alert-title { color: #c084fc; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-  .alert-text { color: #f3e8ff; font-size: 13px; font-weight: 700; margin-top: 4px; }
-  .alert-sub { color: #e9d5ff; font-size: 11px; margin-top: 2px; }
-  .alert-danger { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; }
-  .alert-danger .alert-title { color: #fb7185; }
-  .alert-warn { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; }
-  .alert-warn .alert-title { color: #fbbf24; }
+    .stock-number { font-size: 46px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
+    .stat-label { font-size: 9px; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-val { font-size: 14px; font-weight: 800; margin-top: 2px; }
+    .text-purple { color: #c084fc; }
+    .text-green { color: #34d399; }
 
-  .stock-number { font-size: 52px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 20px rgba(168, 85, 247, 0.5); transition: transform 0.2s; }
-  .stock-number.pop { transform: scale(1.08); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; }
+    .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
 
-  .progress-bar { height: 8px; background: #1a1033; border-radius: 99px; overflow: hidden; margin-top: 10px; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, #34d399, #a855f7); border-radius: 99px; transition: width 0.5s ease; }
+    .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
+    
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      background: #0f0b1e !important;
+      border: 1px solid #6b21a8 !important;
+      color: #ffffff !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      font-size: 13px !important;
+      outline: none !important;
+    }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-  .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
-  .stat-label { font-size: 9px; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-val { font-size: 14px; font-weight: 800; margin-top: 2px; }
-  .text-purple { color: #c084fc; } .text-green { color: #34d399; } .text-red { color: #f87171; } .text-amber { color: #f59e0b; }
+    .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
-  .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 14px 0; border-radius: 14px; cursor: pointer; text-align: center; transition: all 0.15s; }
-  .btn-dose:active { transform: scale(0.94); background: #2a1a4d; }
-  .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; box-shadow: 0 6px 18px rgba(147,51,234,0.4); }
+    .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
+    .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: 700; cursor: pointer; }
+    .nav-btn span { font-size: 16px; margin-bottom: 2px; }
+    .nav-btn.active { color: #c084fc; }
 
-  .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-
-  input[type="number"], input[type="text"], input[type="password"] {
-    width: 100%; background: #0f0b1e !important; border: 1px solid #6b21a8 !important; color: #fff !important;
-    padding: 12px !important; border-radius: 12px !important; font-size: 13px !important; outline: none !important;
-  }
-  input:focus { border-color: #a855f7 !important; box-shadow: 0 0 0 3px rgba(168,85,247,0.2); }
-
-  .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 12px 16px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-  .btn-submit:active { transform: scale(0.96); }
-  .btn-primary { background: linear-gradient(135deg, #7e22ce, #9333ea); border: none; color: #fff; font-weight: 800; width: 100%; padding: 14px; }
-
-  .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 22px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
-  .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 9px; font-weight: 700; cursor: pointer; padding: 6px 12px; border-radius: 12px; transition: all 0.2s; }
-  .nav-btn span { font-size: 18px; margin-bottom: 2px; transition: transform 0.2s; }
-  .nav-btn.active { color: #c084fc; background: rgba(168,85,247,0.1); }
-  .nav-btn.active span { transform: translateY(-2px) scale(1.15); }
-
-  .hidden { display: none !important; }
-  .history-item { background: rgba(15, 11, 30, 0.5); border: 1px solid rgba(168, 85, 247, 0.15); padding: 10px 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; animation: fadeIn 0.3s; }
-
-  .chat-box { height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; padding-right: 4px; }
-  .chat-msg { padding: 10px 12px; border-radius: 14px; font-size: 12px; line-height: 1.5; max-width: 88%; word-break: break-word; animation: fadeIn 0.3s; }
-  .msg-user { background: #6b21a8; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-  .msg-bot { background: #1a1230; color: #e9d5ff; align-self: flex-start; border: 1px solid rgba(168, 85, 247, 0.2); border-bottom-left-radius: 4px; }
-
-  .empty { text-align: center; color: #64748b; font-size: 11px; padding: 20px; }
-
-  /* ===== ESPELHO DE PONTO ===== */
-  .mirror-card { background: linear-gradient(145deg, #130f26, #1a1535); border-radius: 20px; padding: 16px; margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.25); box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 0 30px rgba(168,85,247,0.05); }
-  .mirror-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .mirror-title { font-size: 11px; color: #c084fc; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 8px rgba(192,132,252,0.6); }
-  .mirror-legend { display: flex; gap: 10px; font-size: 9px; color: #94a3b8; }
-  .mirror-legend span { display: flex; align-items: center; gap: 4px; }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
-  .weekdays div { text-align: center; font-size: 9px; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px; }
-  .mirror-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-  .mirror-day { aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; background: rgba(15, 11, 30, 0.6); border: 1px solid rgba(168, 85, 247, 0.15); cursor: pointer; transition: all 0.15s; position: relative; padding: 2px; }
-  .mirror-day:active { transform: scale(0.92); }
-  .mirror-day.empty { visibility: hidden; }
-  .mirror-day.future { opacity: 0.3; cursor: not-allowed; }
-  .mirror-day.today { border: 2px solid #c084fc; box-shadow: 0 0 12px rgba(192,132,252,0.8); }
-  .mirror-day.registered { background: linear-gradient(145deg, #166534, #22c55e); border-color: #4ade80; color: #fff; box-shadow: 0 0 10px rgba(34,197,94,0.5), inset 0 0 8px rgba(74,222,128,0.3); }
-  .mirror-day.registered-heavy { background: linear-gradient(145deg, #7c2d12, #ea580c); border-color: #fb923c; color: #fff; box-shadow: 0 0 12px rgba(251,146,60,0.7), inset 0 0 8px rgba(253,186,116,0.3); }
-  .mirror-day.missed { background: rgba(127, 29, 29, 0.25); border: 2px dashed #dc2626; color: #fca5a5; animation: missedPulse 2.5s ease-in-out infinite; }
-  @keyframes missedPulse { 0%, 100% { box-shadow: 0 0 0 rgba(220,38,38,0); } 50% { box-shadow: 0 0 12px rgba(220,38,38,0.6); } }
-  .mirror-day .day-num { font-size: 11px; line-height: 1; }
-  .mirror-day .day-count { font-size: 8px; font-weight: 900; margin-top: 1px; opacity: 0.95; }
-
-  /* MODAL RETROATIVO */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 999; animation: fadeIn 0.2s; padding: 20px; }
-  .modal-box { background: linear-gradient(145deg, #1a1033, #0f0b1e); border: 1px solid #7c3aed; border-radius: 22px; padding: 22px; width: 100%; max-width: 340px; box-shadow: 0 0 40px rgba(168,85,247,0.5); animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-title { font-size: 14px; color: #c084fc; font-weight: 800; margin-bottom: 6px; text-shadow: 0 0 10px rgba(192,132,252,0.6); }
-  .modal-sub { font-size: 11px; color: #94a3b8; margin-bottom: 14px; }
-  .modal-doses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-  .modal-btn { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 15px; font-weight: 800; padding: 12px 0; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-  .modal-btn:active { transform: scale(0.94); }
-  .modal-btn.primary { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; box-shadow: 0 0 15px rgba(147,51,234,0.6); }
-</style>
+    .hidden { display: none !important; }
+    .history-item { background: rgba(15, 11, 30, 0.5); border: 1px solid rgba(168, 85, 247, 0.15); padding: 10px 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+    
+    .chat-box { height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .chat-msg { padding: 10px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; max-width: 88%; word-break: break-word; }
+    .msg-user { background: #6b21a8; color: #fff; align-self: flex-end; }
+    .msg-bot { background: #1a1230; color: #e9d5ff; align-self: flex-start; border: 1px solid rgba(168, 85, 247, 0.2); }
+  </style>
 </head>
 <body>
 
   <!-- CABEÇALHO -->
   <div class="card header">
     <div style="display: flex; align-items: center; gap: 12px;">
-      <div class="pill-icon">💊</div>
+      <div class="box-icon">
+        <div class="box-g">G</div>
+        <div class="box-title">Zolpidem</div>
+        <div class="box-stripe"></div>
+      </div>
       <div>
-        <h1 id="headerTitle" class="neon-name">Zolpidem</h1>
-        <p id="headerSub">Controle pessoal de uso</p>
+        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Zolpidem & Finanças</h1>
+        <p style="font-size: 10px; color: #a855f7;">Controle de Saúde & Orçamento</p>
       </div>
     </div>
     <button onclick="toggleConfig()" class="btn-icon">⚙</button>
   </div>
 
-  <!-- CONFIGURAÇÕES -->
+  <!-- ALERTA DE MADRUGADA (1:20 ÀS 1:40) -->
+  <div id="consciousnessAlert" class="alert alert-danger hidden">
+    <div class="alert-title">⚠ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
+    <div class="alert-text">Os efeitos do medicamento estão no seu ápice agora!</div>
+    <div class="alert-sub" style="margin-top: 6px; font-size: 11px; line-height: 1.4; color: #ffe4e6;">
+      💬 <b>Atenção:</b> Verifique mensagens ou áudios enviados para evitar arrependimentos amanhã sob efeito do remédio.
+    </div>
+  </div>
+
+  <!-- PAINEL DE CONFIGURAÇÕES -->
   <div id="configPanel" class="card hidden">
     <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">⚙ Configurações</h2>
     <div class="grid-2" style="margin-top:0;">
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Preço da Caixa (R$)</label>
-        <input type="number" id="inputPrice" step="0.01">
+        <label style="font-size: 10px; color: #a78bfa;">Preço Caixa (R$)</label>
+        <input type="number" id="inputPrice" value="45.00" step="0.01">
       </div>
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Comprimidos / Caixa</label>
-        <input type="number" id="inputBoxPills">
+        <label style="font-size: 10px; color: #a78bfa;">CPs por Caixa</label>
+        <input type="number" id="inputBoxPills" value="30">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Estoque Atual</label>
-        <input type="number" id="inputStock">
+        <input type="number" id="inputStock" value="30">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
-        <input type="number" id="inputDaily">
+        <input type="number" id="inputDaily" value="6">
       </div>
     </div>
-    <div style="margin-top: 10px;">
-      <label style="font-size: 10px; color: #a78bfa;">Nome do Medicamento</label>
-      <input type="text" id="inputMedName" placeholder="Ex: Zolpidem">
-    </div>
+    
     <div style="margin-top: 10px;">
       <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
-      <input type="password" id="inputGeminiKey" placeholder="Cole sua chave aqui (AIzaSy...)">
+      <input type="text" id="inputGeminiKey" placeholder="Cole sua chave API aqui">
     </div>
-    <button onclick="saveConfig()" class="btn-submit btn-primary" style="margin-top: 12px;">SALVAR CONFIGURAÇÕES</button>
+
+    <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
-  <!-- ABA 1: INÍCIO -->
+  <!-- ABA 1: INÍCIO (MEDICAMENTO) -->
   <div id="tab-home" class="tab-content">
-    <div id="statusAlert" class="alert hidden">
-      <div class="alert-title" id="statusTitle">Status</div>
-      <div class="alert-text" id="statusText">--</div>
-      <div class="alert-sub" id="statusSub">--</div>
+    <div class="alert">
+      <div class="alert-title">⏳ Previsão de Término</div>
+      <div id="predictionText" class="alert-text">Calculando...</div>
+      <div id="daysRemainingText" class="alert-sub">--</div>
     </div>
 
     <div class="card" style="text-align: center;">
-      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Estoque Atual</p>
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Estoque Atual em Mãos</p>
       <div id="stockDisplay" class="stock-number">0</div>
       <p style="font-size: 11px; color: #94a3b8;">comprimidos restantes</p>
-      <div class="progress-bar"><div id="stockProgress" class="progress-fill" style="width: 0%;"></div></div>
+
       <div class="grid-2">
         <div class="stat-box">
           <div class="stat-label" style="color: #a78bfa;">Custo / CP</div>
@@ -184,230 +151,418 @@
     </div>
 
     <div class="card">
-      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Registrar Consumo</p>
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Registrar Consumo Diário</p>
       <div class="grid-4">
         <button onclick="takeDose(1)" class="btn-dose">+1</button>
-        <button onclick="takeDose(2)" class="btn-dose">+2</button>
         <button onclick="takeDose(3)" class="btn-dose">+3</button>
+        <button onclick="takeDose(4)" class="btn-dose">+4</button>
         <button onclick="takeDose(6)" class="btn-dose btn-dose-main">+6</button>
       </div>
+
       <div class="flex-gap">
-        <input type="number" id="customAmount" placeholder="Outra quantidade...">
+        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)">
         <button onclick="takeCustomDose()" class="btn-submit">Registrar</button>
       </div>
     </div>
+  </div>
 
-    <!-- 📅 ESPELHO DE PONTO -->
-    <div class="mirror-card">
-      <div class="mirror-header">
-        <div class="mirror-title">📅 Espelho do Mês</div>
-        <div class="mirror-legend">
-          <span><span class="legend-dot" style="background:#22c55e;"></span>ok</span>
-          <span><span class="legend-dot" style="background:#ea580c;"></span>alto</span>
-          <span><span class="legend-dot" style="background:#dc2626;"></span>falta</span>
+  <!-- ABA 2: GASTOS DE MEDICAMENTOS -->
+  <div id="tab-costs" class="tab-content hidden">
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Custos de Saúde</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="history-item">
+          <div>
+            <div style="color: #cbd5e1;">Gasto Real no Mês</div>
+            <div style="font-size: 9px; color: #64748b;">Consumo de comprimidos</div>
+          </div>
+          <div id="spentThisMonthDisplay" style="font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
+        </div>
+
+        <div class="history-item" style="border-color: rgba(245, 158, 11, 0.4);">
+          <div>
+            <div style="color: #fef3c7; font-weight: 700;">Renovação (+30 dias)</div>
+            <div id="boxesToBuyText" style="font-size: 9px; color: #fde68a;">--</div>
+          </div>
+          <div id="renewCostDisplay" style="font-size: 15px; font-weight: 800; color: #f59e0b;">R$ 0,00</div>
         </div>
       </div>
-      <div class="weekdays">
-        <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
-      </div>
-      <div id="mirrorGrid" class="mirror-grid"></div>
     </div>
   </div>
 
-  <!-- ABA 2: ESTOQUE -->
-  <div id="tab-stock" class="tab-content hidden">
+  <!-- ABA 3: FÉRIAS E FINANÇAS (NOVA) -->
+  <div id="tab-finances" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">📦 Previsão & Reposição</h2>
-      <div id="predictionText" class="alert-text" style="color: #f3e8ff;">--</div>
-      <div id="daysRemainingText" class="alert-sub">--</div>
-      <div class="grid-2" style="margin-top: 14px;">
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">Dias Restantes</div>
-          <div id="daysLeftDisplay" class="stat-val text-purple">--</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">Data de Término</div>
-          <div id="endDateDisplay" class="stat-val" style="color: #fff;">--</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">🛒 Próxima Compra</h2>
-      <div class="history-item">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">💼 Recibo de Férias & Orçamento</h2>
+      
+      <div class="grid-2" style="margin-bottom: 10px;">
         <div>
-          <div style="color: #cbd5e1;">Renovação (30 dias)</div>
-          <div id="boxesToBuyText" style="font-size: 9px; color: #64748b;">--</div>
+          <label style="font-size: 10px; color: #a78bfa;">Valor Bruto/Líquido Férias (R$)</label>
+          <input type="number" id="inputVacationIncome" value="0.00" step="0.01" oninput="saveFinances()">
         </div>
-        <div id="renewCostDisplay" style="font-size: 15px; font-weight: 800; color: #f59e0b;">R$ 0,00</div>
-      </div>
-      <div class="history-item">
-        <div style="color: #cbd5e1;">Custo Mensal Estimado</div>
-        <div id="monthlyCostDisplay" style="font-size: 15px; font-weight: 800; color: #c084fc;">R$ 0,00</div>
-      </div>
-      <div class="history-item">
-        <div style="color: #cbd5e1;">Custo Anual Estimado</div>
-        <div id="yearlyCostDisplay" style="font-size: 15px; font-weight: 800; color: #c084fc;">R$ 0,00</div>
+        <div>
+          <label style="font-size: 10px; color: #a78bfa;">Saldo Disponível</label>
+          <div id="vacationBalance" class="stat-val text-green" style="font-size: 16px; margin-top: 8px;">R$ 0,00</div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ABA 3: HISTÓRICO -->
-  <div id="tab-reports" class="tab-content hidden">
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório</h2>
-        <button onclick="exportReport()" class="btn-submit" style="background: #10b981; border: none; padding: 8px 12px;">📥 Exportar</button>
-      </div>
-      <div class="grid-2">
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">CPs no Mês</div>
-          <div id="monthPillsTaken" class="stat-val" style="color: #fff;">0</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">Média Diária</div>
-          <div id="monthDailyAvg" class="stat-val" style="color: #fff;">0.0 / dia</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">Gasto no Mês</div>
-          <div id="spentThisMonthDisplay" class="stat-val text-green">R$ 0,00</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label" style="color: #a78bfa;">Total Registros</div>
-          <div id="totalRecords" class="stat-val" style="color: #fff;">0</div>
-        </div>
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Registar Gasto das Férias</p>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <input type="text" id="expenseDesc" placeholder="Descrição (ex: Viagem, Mercado, Lazer)">
+        <input type="number" id="expenseVal" placeholder="Valor (R$)" step="0.01">
+        <button onclick="addVacationExpense()" class="btn-submit" style="padding: 10px; background: #9333ea; border:none; font-weight: 800;">Adicionar Despesa</button>
       </div>
     </div>
 
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico de Consumo</p>
-        <button onclick="clearHistory()" style="background: none; border: none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
+        <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Gastos Registados</p>
+        <button onclick="clearVacationExpenses()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
       </div>
-      <div id="historyList">
-        <p class="empty">Nenhum registro ainda.</p>
+      <div id="vacationExpenseList">
+        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum gasto registado.</p>
       </div>
     </div>
   </div>
 
-  <!-- ABA 4: IA -->
+  <!-- ABA 4: RELATÓRIOS -->
+  <div id="tab-reports" class="tab-content hidden">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório Geral</h2>
+        <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
+      </div>
+      <div class="grid-2">
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">CPs Tomados no Mês</div>
+          <div id="monthPillsTaken" class="stat-val" style="color: #fff;">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" style="color: #a78bfa;">Média Diária Real</div>
+          <div id="monthDailyAvg" class="stat-val" style="color: #fff;">0.0 / dia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Histórico de Consumo</p>
+      <div id="historyList">
+        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 5: GEMINI CHAT -->
   <div id="tab-chat" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Assistente IA</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
+      
       <div id="chatHistory" class="chat-box">
-        <div class="chat-msg msg-bot">Olá! Sou seu assistente. Posso analisar seu consumo, custos e responder dúvidas. Pergunte algo! 💊</div>
+        <div class="chat-msg msg-bot">
+          Olá! Posso ajudar a analisar seus gastos de férias ou o seu estoque de medicamentos. Pergunte o que quiser!
+        </div>
       </div>
+
       <div class="flex-gap">
-        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter')sendChatMessage()">
-        <button onclick="sendChatMessage()" class="btn-submit" style="background: #9333ea; border: none;">Enviar</button>
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." onkeypress="handleChatKeyPress(event)">
+        <button onclick="sendChatMessage()" class="btn-submit" style="background: #9333ea; border:none;">Enviar</button>
       </div>
     </div>
   </div>
 
-  <!-- NAVEGAÇÃO -->
+  <!-- NAVEGAÇÃO FIXA (5 ABAS) -->
   <div class="nav-bar">
     <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
-    <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn"><span>📦</span>Estoque</button>
-    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Histórico</button>
-    <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>IA</button>
+    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Saúde</button>
+    <button onclick="switchTab('finances')" id="nav-finances" class="nav-btn"><span>💼</span>Férias</button>
+    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatório</button>
+    <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>Gemini</button>
   </div>
 
-<script>
-  function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
-  function setVal(k, v) { localStorage.setItem(k, v); }
+  <script>
+    function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
 
-  var stock = parseInt(getVal('med_stock', 30));
-  var price = parseFloat(getVal('med_price', 45.00));
-  var boxPills = parseInt(getVal('med_boxPills', 30));
-  var dailyDose = parseInt(getVal('med_dailyDose', 2));
-  var geminiKey = getVal('med_gemini_key', '');
-  var initialStock = parseInt(getVal('med_initialStock', stock));
-  var medName = getVal('med_name', 'Zolpidem');
+    var stock = parseInt(getVal('med_stock', 30));
+    var price = parseFloat(getVal('med_price', 45.00));
+    var boxPills = parseInt(getVal('med_boxPills', 30));
+    var dailyDose = parseInt(getVal('med_dailyDose', 6));
+    var geminiKey = getVal('med_gemini_key', '');
+    var vacationIncome = parseFloat(getVal('vac_income', 0.00));
+    
+    var historyData = [];
+    var vacationExpenses = [];
 
-  var historyData = [];
-  try {
-    var h = localStorage.getItem('med_history');
-    if (h) historyData = JSON.parse(h) || [];
-  } catch(e) { historyData = []; }
+    try {
+      var h = localStorage.getItem('med_history');
+      if (h) historyData = JSON.parse(h);
+      var ve = localStorage.getItem('vac_expenses');
+      if (ve) vacationExpenses = JSON.parse(ve);
+    } catch(e) { historyData = []; vacationExpenses = []; }
 
-  var TAB_TITLES = {
-    home:    { title: null,        sub: 'Controle pessoal de uso' },
-    stock:   { title: 'Estoque',   sub: 'Previsão e reposição' },
-    reports: { title: 'Histórico', sub: 'Registros e relatórios' },
-    chat:    { title: 'Assistente IA', sub: 'Pergunte sobre seu tratamento' }
-  };
+    function updateUI() {
+      document.getElementById('stockDisplay').innerText = isNaN(stock) ? 0 : stock;
 
-  function switchTab(tab) {
-    document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.add('hidden'); });
-    document.querySelectorAll('.nav-btn').forEach(function(el) { el.classList.remove('active'); });
-    var target = document.getElementById('tab-' + tab);
-    var nav = document.getElementById('nav-' + tab);
-    if (target) target.classList.remove('hidden');
-    if (nav) nav.classList.add('active');
+      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
+      var currentStockValue = stock * unitPrice;
+      var monthlyCost = dailyDose * 30 * unitPrice;
 
-    var t = TAB_TITLES[tab];
-    if (t) {
-      var hEl = document.getElementById('headerTitle');
-      var sub = document.getElementById('headerSub');
-      hEl.style.opacity = 0;
-      sub.style.opacity = 0;
-      setTimeout(function() {
-        hEl.innerText = t.title || medName;
-        sub.innerText = t.sub;
-        hEl.style.opacity = 1;
-        sub.style.opacity = 1;
-      }, 120);
+      document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
+      document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
+
+      if (stock <= 0) {
+        document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
+        document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
+      } else if (dailyDose <= 0) {
+        document.getElementById('predictionText').innerText = "Configure a dose diária.";
+        document.getElementById('daysRemainingText').innerText = "";
+      } else {
+        var daysLeft = stock / dailyDose;
+        var today = new Date();
+        today.setDate(today.getDate() + Math.floor(daysLeft));
+        var dateStr = today.toLocaleDateString('pt-BR');
+        document.getElementById('predictionText').innerText = "Estoque acaba em " + dateStr;
+        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia.";
+      }
+
+      var now = new Date();
+      var pilsTakenThisMonth = 0;
+      if (Array.isArray(historyData)) {
+        historyData.forEach(function(item) {
+          if (item && item.timestamp) {
+            var d = new Date(item.timestamp);
+            if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) {
+              pilsTakenThisMonth += (item.amount || 0);
+            }
+          }
+        });
+      }
+
+      document.getElementById('spentThisMonthDisplay').innerText = 'R$ ' + (pilsTakenThisMonth * unitPrice).toFixed(2);
+      document.getElementById('monthPillsTaken').innerText = pilsTakenThisMonth;
+      document.getElementById('monthDailyAvg').innerText = (now.getDate() > 0 ? (pilsTakenThisMonth / now.getDate()).toFixed(1) : "0.0") + ' / dia';
+
+      var boxesNeeded = boxPills > 0 ? Math.ceil((dailyDose * 30) / boxPills) : 0;
+      document.getElementById('renewCostDisplay').innerText = 'R$ ' + (boxesNeeded * price).toFixed(2);
+      document.getElementById('boxesToBuyText').innerText = "Necessário comprar " + boxesNeeded + " caixa(s).";
+
+      // Atualizar Finanças / Férias
+      document.getElementById('inputVacationIncome').value = vacationIncome;
+      var totalVacExpenses = 0;
+      var veHtml = '';
+      if (!Array.isArray(vacationExpenses) || vacationExpenses.length === 0) {
+        veHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum gasto registado.</p>';
+      } else {
+        vacationExpenses.forEach(function(item, idx) {
+          totalVacExpenses += (item.val || 0);
+          veHtml += '<div class="history-item"><div><b>' + item.desc + '</b></div><span style="color:#f87171; font-weight:700;">- R$ ' + (item.val || 0).toFixed(2) + '</span></div>';
+        });
+      }
+      document.getElementById('vacationExpenseList').innerHTML = veHtml;
+      var balance = vacationIncome - totalVacExpenses;
+      var balEl = document.getElementById('vacationBalance');
+      balEl.innerText = 'R$ ' + balance.toFixed(2);
+      balEl.className = 'stat-val ' + (balance >= 0 ? 'text-green' : 'text-danger');
+
+      var hHtml = '';
+      if (!Array.isArray(historyData) || historyData.length === 0) {
+        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>';
+      } else {
+        historyData.slice(0, 10).forEach(function(item) {
+          hHtml += '<div class="history-item"><div><b>✔️ Tomei ' + item.amount + ' CP(s)</b><div style="font-size:9px; color:#a78bfa;">' + (item.timeStr || '') + '</div></div><span style="color:#34d399; font-weight:700;">R$ ' + ((item.amount||0)*unitPrice).toFixed(2) + '</span></div>';
+        });
+      }
+      document.getElementById('historyList').innerHTML = hHtml;
+
+      localStorage.setItem('med_stock', stock);
+      localStorage.setItem('med_price', price);
+      localStorage.setItem('med_boxPills', boxPills);
+      localStorage.setItem('med_dailyDose', dailyDose);
+      localStorage.setItem('vac_income', vacationIncome);
+      localStorage.setItem('med_history', JSON.stringify(historyData));
+      localStorage.setItem('vac_expenses', JSON.stringify(vacationExpenses));
     }
-    if (navigator.vibrate) navigator.vibrate(10);
-  }
 
-  function toggleConfig() {
-    var p = document.getElementById('configPanel');
-    p.classList.toggle('hidden');
-    document.getElementById('inputPrice').value = price;
-    document.getElementById('inputBoxPills').value = boxPills;
-    document.getElementById('inputStock').value = stock;
-    document.getElementById('inputDaily').value = dailyDose;
-    document.getElementById('inputMedName').value = medName;
-    document.getElementById('inputGeminiKey').value = geminiKey;
-  }
+    function saveFinances() {
+      var val = parseFloat(document.getElementById('inputVacationIncome').value);
+      vacationIncome = isNaN(val) ? 0 : val;
+      updateUI();
+    }
 
-  function saveConfig() {
-    price = parseFloat(document.getElementById('inputPrice').value) || 0;
-    boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
-    stock = parseInt(document.getElementById('inputStock').value) || 0;
-    dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
-    medName = document.getElementById('inputMedName').value.trim() || 'Zolpidem';
-    geminiKey = document.getElementById('inputGeminiKey').value.trim();
+    function addVacationExpense() {
+      var descInp = document.getElementById('expenseDesc');
+      var valInp = document.getElementById('expenseVal');
+      var desc = descInp.value.trim() || 'Gasto de Férias';
+      var val = parseFloat(valInp.value);
 
-    setVal('med_price', price);
-    setVal('med_boxPills', boxPills);
-    setVal('med_stock', stock);
-    setVal('med_dailyDose', dailyDose);
-    setVal('med_name', medName);
-    setVal('med_gemini_key', geminiKey);
-    if (initialStock < stock) { initialStock = stock; setVal('med_initialStock', initialStock); }
+      if (val && val > 0) {
+        vacationExpenses.unshift({ desc: desc, val: val });
+        descInp.value = '';
+        valInp.value = '';
+        updateUI();
+      }
+    }
 
-    document.getElementById('configPanel').classList.add('hidden');
-    document.getElementById('headerTitle').innerText = medName;
+    function clearVacationExpenses() {
+      if (confirm("Deseja apagar os gastos de férias?")) {
+        vacationExpenses = [];
+        updateUI();
+      }
+    }
+
+    function takeDose(amt) {
+      if (stock <= 0) return;
+      stock = Math.max(0, stock - amt);
+      var now = new Date();
+      var timeStr = now.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}) + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      historyData.unshift({ amount: amt, timeStr: timeStr, timestamp: now.getTime() });
+      updateUI();
+    }
+
+    function takeCustomDose() {
+      var inp = document.getElementById('customAmount');
+      var val = parseInt(inp.value);
+      if (val && val > 0) {
+        takeDose(val);
+        inp.value = '';
+      }
+    }
+
+    function switchTab(name) {
+      var tabs = document.querySelectorAll('.tab-content');
+      for(var i=0; i<tabs.length; i++) tabs[i].classList.add('hidden');
+      
+      var btns = document.querySelectorAll('.nav-btn');
+      for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      document.getElementById('nav-' + name).classList.add('active');
+    }
+
+    function toggleConfig() {
+      var cfg = document.getElementById('configPanel');
+      cfg.classList.toggle('hidden');
+      if (!cfg.classList.contains('hidden')) {
+        document.getElementById('inputPrice').value = price;
+        document.getElementById('inputBoxPills').value = boxPills;
+        document.getElementById('inputStock').value = stock;
+        document.getElementById('inputDaily').value = dailyDose;
+        document.getElementById('inputGeminiKey').value = geminiKey;
+      }
+    }
+
+    function saveConfig() {
+      price = parseFloat(document.getElementById('inputPrice').value) || 0;
+      boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
+      stock = parseInt(document.getElementById('inputStock').value) || 0;
+      dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
+      
+      var rawKey = document.getElementById('inputGeminiKey').value || '';
+      geminiKey = rawKey.replace(/\s+/g, '').trim();
+
+      localStorage.setItem('med_gemini_key', geminiKey);
+      toggleConfig();
+      updateUI();
+      alert("Configurações salvas com sucesso!");
+    }
+
+    function exportReport() {
+      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
+      var txt = "RELATORIO GERAL\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque Med: " + stock + " CPs\nRecibo Férias: R$ " + vacationIncome.toFixed(2);
+      var blob = new Blob([txt], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Relatorio_Geral.txt';
+      a.click();
+    }
+
+    function handleChatKeyPress(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    function sendChatMessage() {
+      var inputEl = document.getElementById('chatInput');
+      var text = inputEl.value.trim();
+      if (!text) return;
+
+      appendChatMessage(text, 'user');
+      inputEl.value = '';
+
+      if (!geminiKey) {
+        setTimeout(function() {
+          appendChatMessage("🔑 Insira a sua Chave API do Gemini no menu de configurações (⚙).", 'bot');
+        }, 300);
+        return;
+      }
+
+      appendChatMessage("✨ <i>Pensando...</i>", 'bot');
+      fetchGeminiReply(text);
+    }
+
+    function appendChatMessage(msg, sender) {
+      var box = document.getElementById('chatHistory');
+      var div = document.createElement('div');
+      div.className = 'chat-msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
+      div.innerHTML = msg.replace(/\n/g, '<br>');
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function fetchGeminiReply(userText) {
+      var promptText = "Você é o assistente financeiro e de saúde. Contexto: Recebido Férias=R$" + vacationIncome + ", Estoque Med=" + stock + " CPs. Responda de forma útil: " + userText;
+
+      fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + geminiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        removeThinkingMsg();
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
+        } else if (data.error) {
+          appendChatMessage("⚠️ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
+        } else {
+          appendChatMessage("⚠ Resposta inválida. Verifique sua Chave API.", 'bot');
+        }
+      })
+      .catch(function() {
+        removeThinkingMsg();
+        appendChatMessage("❌ Erro de conexão com os servidores da API.", 'bot');
+      });
+    }
+
+    function removeThinkingMsg() {
+      var msgs = document.querySelectorAll('#chatHistory .chat-msg');
+      if (msgs.length > 0 && msgs[msgs.length - 1].innerHTML.includes("Pensando...")) {
+        msgs[msgs.length - 1].remove();
+      }
+    }
+
+    function checkTimeAlert() {
+      var now = new Date();
+      var h = now.getHours();
+      var m = now.getMinutes();
+      var consciousnessBox = document.getElementById('consciousnessAlert');
+      if (h === 1 && m >= 20 && m <= 40) {
+        consciousnessBox.classList.remove('hidden');
+      } else {
+        consciousnessBox.classList.add('hidden');
+      }
+    }
+
+    function loadSavedKeyToInput() {
+      var savedKey = localStorage.getItem('med_gemini_key');
+      if (savedKey) {
+        geminiKey = savedKey;
+      }
+    }
+
+    loadSavedKeyToInput();
+    checkTimeAlert();
     updateUI();
-    if (navigator.vibrate) navigator.vibrate(30);
-  }
-
-  function takeDose(n) {
-    if (n > stock) { alert('Estoque insuficiente! Você tem apenas ' + stock + ' comprimido(s).'); return; }
-    stock -= n;
-    setVal('med_stock', stock);
-    historyData.unshift({ amount: n, timestamp: new Date().toISOString() });
-    if (historyData.length > 500) historyData = historyData.slice(0, 500);
-    setVal('med_history', JSON.stringify(historyData));
-    if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
-    var el = document.getElementById('stockDisplay');
-    el.classList.add('pop');
-    setTimeout(function() { el.classList.remove('pop'); }, 200);
-    updateUI();
-  }
-
-  function takeCustomDose() {
-    var v = parseInt(document.getElementById('customAmount').value);
-    if (!v || v <= 0) { alert('Digite uma quantidade vál
+  </script>
+</body>
+</html>
