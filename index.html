@@ -54,8 +54,26 @@
     .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4); }
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-    input[type="number"] { width: 100%; background: #0f0b1e; border: 1px solid #4c1d95; color: #fff; padding: 11px; border-radius: 12px; font-size: 13px; outline: none; }
-    input[type="number"]:focus { border-color: #a855f7; }
+    
+    /* INPUTS TOTALMENTE HABILITADOS E ACESSÍVEIS */
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      background: #0f0b1e !important;
+      border: 1px solid #6b21a8 !important;
+      color: #ffffff !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      font-size: 14px !important;
+      outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
+    }
+    input[type="number"]:focus, input[type="text"]:focus {
+      border-color: #a855f7 !important;
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+    }
+    
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
     /* NAVEGACAO FIXA */
@@ -101,19 +119,19 @@
     <div class="grid-2" style="margin-top:0;">
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Preço Caixa (R$)</label>
-        <input type="number" id="inputPrice" value="45.00" step="0.01">
+        <input type="number" id="inputPrice" value="45.00" step="any" inputmode="decimal">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">CPs por Caixa</label>
-        <input type="number" id="inputBoxPills" value="30">
+        <input type="number" id="inputBoxPills" value="30" step="1" inputmode="numeric">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Estoque Atual</label>
-        <input type="number" id="inputStock" value="30">
+        <input type="number" id="inputStock" value="30" step="1" inputmode="numeric">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
-        <input type="number" id="inputDaily" value="6">
+        <input type="number" id="inputDaily" value="6" step="1" inputmode="numeric">
       </div>
     </div>
 
@@ -161,7 +179,7 @@
       </div>
 
       <div class="flex-gap">
-        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)">
+        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)" step="1" inputmode="numeric">
         <button onclick="takeCustomDose()" class="btn-submit">Registrar</button>
       </div>
     </div>
@@ -282,6 +300,20 @@
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
       document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
+      // Atualiza valores nas caixas de entrada para edição sem travar
+      if (document.getElementById('inputPrice') && document.activeElement !== document.getElementById('inputPrice')) {
+        document.getElementById('inputPrice').value = price.toFixed(2);
+      }
+      if (document.getElementById('inputBoxPills') && document.activeElement !== document.getElementById('inputBoxPills')) {
+        document.getElementById('inputBoxPills').value = boxPills;
+      }
+      if (document.getElementById('inputStock') && document.activeElement !== document.getElementById('inputStock')) {
+        document.getElementById('inputStock').value = stock;
+      }
+      if (document.getElementById('inputDaily') && document.activeElement !== document.getElementById('inputDaily')) {
+        document.getElementById('inputDaily').value = dailyDose;
+      }
+
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
         document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
@@ -350,42 +382,4 @@
       if (val && val > 0) {
         takeDose(val);
         inp.value = '';
-      }
-    }
-
-    function clearHistory() {
-      if (confirm("Deseja apagar o histórico?")) {
-        historyData = [];
-        updateUI();
-      }
-    }
-
-    function switchTab(name) {
-      var tabs = document.querySelectorAll('.tab-content');
-      for(var i=0; i<tabs.length; i++) tabs[i].classList.add('hidden');
-      
-      var btns = document.querySelectorAll('.nav-btn');
-      for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
-
-      document.getElementById('tab-' + name).classList.remove('hidden');
-      document.getElementById('nav-' + name).classList.add('active');
-    }
-
-    function toggleConfig() {
-      document.getElementById('configPanel').classList.toggle('hidden');
-    }
-
-    function saveConfig() {
-      price = parseFloat(document.getElementById('inputPrice').value) || 0;
-      boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
-      stock = parseInt(document.getElementById('inputStock').value) || 0;
-      dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
-      toggleConfig();
-      updateUI();
-    }
-
-    function exportReport() {
-      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
-      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
-      var blob = new Blob([txt], { type: 'text/plain' });
-      var a = d
+    
