@@ -8,37 +8,25 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #090714; color: #f1f5f9; padding: 16px; padding-bottom: 95px; }
 
-    /* CARDS & CONTAINERS */
     .card { background: linear-gradient(145deg, #130f26, #1a1535); border-radius: 20px; padding: 18px; margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
     .header { display: flex; justify-content: space-between; align-items: center; }
 
-    /* ÍCONE DE CAIXA DE REMÉDIO ROXO */
     .box-icon { width: 44px; height: 38px; background: #ffffff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #cbd5e1; box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3); }
     .box-g { background: #fae8ff; height: 11px; text-align: center; font-size: 7px; font-weight: 900; color: #7e22ce; line-height: 11px; }
     .box-title { text-align: center; font-size: 7px; font-weight: 800; color: #1e1b4b; text-transform: uppercase; line-height: 10px; }
     .box-stripe { background: #9333ea; height: 8px; }
 
-    /* BOTOES E ÍCONES */
-    .btn-icon { background: #261c47; border: 1px solid #4c1d95; color: #c084fc; padding: 10px; border-radius: 12px; font-size: 16px; cursor: pointer; transition: 0.2s; }
-    .btn-icon:active { background: #581c87; color: #fff; }
+    .btn-icon { background: #261c47; border: 1px solid #4c1d95; color: #c084fc; padding: 10px; border-radius: 12px; font-size: 16px; cursor: pointer; }
 
-    /* ALERTAS */
     .alert { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 14px; border-radius: 16px; margin-bottom: 14px; }
     .alert-title { color: #c084fc; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
     .alert-text { color: #f3e8ff; font-size: 13px; font-weight: 700; margin-top: 2px; }
     .alert-sub { color: #e9d5ff; font-size: 11px; margin-top: 2px; }
 
-    /* ALERTA CRÍTICO DE INCONSCIÊNCIA (1:20 às 1:40 AM) */
-    .alert-danger { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; animation: pulse 2s infinite; }
+    .alert-danger { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; }
     .alert-danger .alert-title { color: #fb7185; }
     .alert-danger .alert-text { color: #ffe4e6; }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
-    }
 
-    /* ESTOQUE E NUMEROS */
     .stock-number { font-size: 54px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
@@ -47,36 +35,14 @@
     .text-purple { color: #c084fc; }
     .text-green { color: #34d399; }
 
-    /* BOTOES DE DOSE */
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-    .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; transition: 0.1s; }
-    .btn-dose:active { background: #7e22ce; color: #fff; transform: scale(0.96); }
-    .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4); }
+    .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; }
+    .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-    
-    /* INPUTS TOTALMENTE HABILITADOS E ACESSÍVEIS */
-    input[type="number"], input[type="text"] {
-      width: 100%;
-      background: #0f0b1e !important;
-      border: 1px solid #6b21a8 !important;
-      color: #ffffff !important;
-      padding: 12px !important;
-      border-radius: 12px !important;
-      font-size: 14px !important;
-      outline: none !important;
-      -webkit-user-select: text !important;
-      user-select: text !important;
-      pointer-events: auto !important;
-    }
-    input[type="number"]:focus, input[type="text"]:focus {
-      border-color: #a855f7 !important;
-      box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-    }
-    
+    input[type="number"] { width: 100%; background: #0f0b1e; border: 1px solid #4c1d95; color: #fff; padding: 11px; border-radius: 12px; font-size: 13px; outline: none; }
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
-    /* NAVEGACAO FIXA */
     .nav-bar { position: fixed; bottom: 12px; left: 4%; width: 92%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
     .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 9px; font-weight: 700; cursor: pointer; }
     .nav-btn span { font-size: 18px; margin-bottom: 2px; }
@@ -119,28 +85,21 @@
     <div class="grid-2" style="margin-top:0;">
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Preço Caixa (R$)</label>
-        <input type="number" id="inputPrice" value="45.00" step="any" inputmode="decimal">
+        <input type="number" id="inputPrice" value="45.00" step="0.01">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">CPs por Caixa</label>
-        <input type="number" id="inputBoxPills" value="30" step="1" inputmode="numeric">
+        <input type="number" id="inputBoxPills" value="30">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Estoque Atual</label>
-        <input type="number" id="inputStock" value="30" step="1" inputmode="numeric">
+        <input type="number" id="inputStock" value="30">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
-        <input type="number" id="inputDaily" value="6" step="1" inputmode="numeric">
+        <input type="number" id="inputDaily" value="6">
       </div>
     </div>
-
-    <!-- NOTIFICAÇÕES -->
-    <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(168, 85, 247, 0.2);">
-      <p style="font-size: 11px; color: #a78bfa; margin-bottom: 8px;">🔔 Notificações (23:00, 23:30 e Alerta 01:20)</p>
-      <button onclick="requestNotificationPermission()" class="btn-submit" style="width: 100%; padding: 10px; background: #6b21a8; border: none;">ATIVAR NOTIFICAÇÕES NO DISPOSITIVO</button>
-    </div>
-
     <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
@@ -179,7 +138,7 @@
       </div>
 
       <div class="flex-gap">
-        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)" step="1" inputmode="numeric">
+        <input type="number" id="customAmount" placeholder="Outra qtd (ex: 2, 5)">
         <button onclick="takeCustomDose()" class="btn-submit">Registrar</button>
       </div>
     </div>
@@ -237,7 +196,7 @@
     </div>
 
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-between; align-items: center; margin-bottom: 10px;">
         <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico</p>
         <button onclick="clearHistory()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
       </div>
@@ -273,10 +232,7 @@
   </div>
 
   <script>
-    function getVal(key, def) {
-      var v = localStorage.getItem(key);
-      return (v === null || v === undefined) ? def : v;
-    }
+    function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
 
     var stock = parseInt(getVal('med_stock', 30));
     var price = parseFloat(getVal('med_price', 45.00));
@@ -299,20 +255,6 @@
       document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
       document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
-
-      // Atualiza valores nas caixas de entrada para edição sem travar
-      if (document.getElementById('inputPrice') && document.activeElement !== document.getElementById('inputPrice')) {
-        document.getElementById('inputPrice').value = price.toFixed(2);
-      }
-      if (document.getElementById('inputBoxPills') && document.activeElement !== document.getElementById('inputBoxPills')) {
-        document.getElementById('inputBoxPills').value = boxPills;
-      }
-      if (document.getElementById('inputStock') && document.activeElement !== document.getElementById('inputStock')) {
-        document.getElementById('inputStock').value = stock;
-      }
-      if (document.getElementById('inputDaily') && document.activeElement !== document.getElementById('inputDaily')) {
-        document.getElementById('inputDaily').value = dailyDose;
-      }
 
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
@@ -382,4 +324,65 @@
       if (val && val > 0) {
         takeDose(val);
         inp.value = '';
-    
+      }
+    }
+
+    function clearHistory() {
+      if (confirm("Deseja apagar o histórico?")) {
+        historyData = [];
+        updateUI();
+      }
+    }
+
+    function switchTab(name) {
+      var tabs = document.querySelectorAll('.tab-content');
+      for(var i=0; i<tabs.length; i++) tabs[i].classList.add('hidden');
+      
+      var btns = document.querySelectorAll('.nav-btn');
+      for(var j=0; j<btns.length; j++) btns[j].classList.remove('active');
+
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      document.getElementById('nav-' + name).classList.add('active');
+    }
+
+    function toggleConfig() {
+      document.getElementById('configPanel').classList.toggle('hidden');
+    }
+
+    function saveConfig() {
+      price = parseFloat(document.getElementById('inputPrice').value) || 0;
+      boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
+      stock = parseInt(document.getElementById('inputStock').value) || 0;
+      dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
+      toggleConfig();
+      updateUI();
+    }
+
+    function exportReport() {
+      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
+      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
+      var blob = new Blob([txt], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Relatorio_Zolpidem.txt';
+      a.click();
+    }
+
+    // Checagem simples do alerta de horário (01:20 às 01:40 AM)
+    function checkTimeAlert() {
+      var now = new Date();
+      var h = now.getHours();
+      var m = now.getMinutes();
+      var consciousnessBox = document.getElementById('consciousnessAlert');
+      if (h === 1 && m >= 20 && m <= 40) {
+        consciousnessBox.classList.remove('hidden');
+      } else {
+        consciousnessBox.classList.add('hidden');
+      }
+    }
+
+    checkTimeAlert();
+    updateUI();
+  </script>
+</body>
+</html>
