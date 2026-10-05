@@ -91,7 +91,7 @@
 
   <!-- ALERTA DE MADRUGADA (1:20 ÀS 1:40) -->
   <div id="consciousnessAlert" class="alert alert-danger hidden">
-    <div class="alert-title">⚠️ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
+    <div class="alert-title">⚠ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
     <div class="alert-text">Os efeitos do medicamento estão no seu ápice agora!</div>
     <div class="alert-sub" style="margin-top: 6px; font-size: 11px; line-height: 1.4; color: #ffe4e6;">
       💬 <b>Atenção:</b> Por favor, verifique e apague mensagens ou áudios que você não queira que as pessoas vejam amanhã, pois você pode ter agido sob o efeito do remédio.
@@ -462,8 +462,8 @@
     function fetchGeminiReply(userText) {
       var promptText = "Você é o Gemini. Contexto do aplicativo: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda amigavelmente: " + userText;
 
-      // Atualizado para usar o modelo correto compatível com as chaves geradas recentemente
-      fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiKey, {
+      // URL atualizada utilizando o modelo estável padrão
+      fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiKey, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -504,6 +504,14 @@
       }
     }
 
+    function loadSavedKeyToInput() {
+      var savedKey = localStorage.getItem('med_gemini_key');
+      if (savedKey) {
+        geminiKey = savedKey;
+      }
+    }
+
+    loadSavedKeyToInput();
     checkTimeAlert();
     updateUI();
   </script>
