@@ -40,7 +40,21 @@
     .btn-dose-main { background: linear-gradient(135deg, #7e22ce, #9333ea); color: #fff; border: none; }
 
     .flex-gap { display: flex; gap: 8px; margin-top: 10px; }
-    input[type="number"], input[type="text"] { width: 100%; background: #0f0b1e; border: 1px solid #4c1d95; color: #fff; padding: 11px; border-radius: 12px; font-size: 13px; outline: none; }
+    
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      background: #0f0b1e !important;
+      border: 1px solid #6b21a8 !important;
+      color: #ffffff !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+      font-size: 13px !important;
+      outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
+    }
+
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
     .nav-bar { position: fixed; bottom: 12px; left: 2%; width: 96%; max-width: 440px; background: rgba(19, 15, 38, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 20px; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 100; }
@@ -107,8 +121,8 @@
     </div>
     
     <div style="margin-top: 10px;">
-      <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
-      <input type="text" id="inputGeminiKey" placeholder="Cole sua API Key do Gemini aqui">
+      <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini (Começa com AIza...)</label>
+      <input type="text" id="inputGeminiKey" placeholder="AIzaSy...">
     </div>
 
     <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
@@ -190,7 +204,7 @@
   <!-- ABA 3: RELATÓRIOS -->
   <div id="tab-reports" class="tab-content hidden">
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-between; align-items: center; margin-bottom: 10px;">
         <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório do Mês</h2>
         <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
       </div>
@@ -207,7 +221,7 @@
     </div>
 
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-between; align-items: center; margin-bottom: 10px;">
         <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico</p>
         <button onclick="clearHistory()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
       </div>
@@ -252,7 +266,7 @@
     </div>
   </div>
 
-  <!-- NAVEGAÇÃO FIXA (5 ABAS) -->
+  <!-- NAVEGAÇÃO FIXA -->
   <div class="nav-bar">
     <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
     <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Gastos</button>
@@ -393,11 +407,20 @@
       boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
       stock = parseInt(document.getElementById('inputStock').value) || 0;
       dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
-      geminiKey = (document.getElementById('inputGeminiKey').value || '').trim();
       
+      var valKey = (document.getElementById('inputGeminiKey').value || '').trim();
+      
+      // VALIDAÇÃO AUTOMÁTICA DE FORMATO DA CHAVE GEMINI
+      if (valKey && !valKey.startsWith('AIza')) {
+        alert("⚠️ Atenção: A chave de API do Gemini deve começar com 'AIza...'. Verifique se você não colou o ID do Projeto.");
+        return;
+      }
+
+      geminiKey = valKey;
       localStorage.setItem('med_gemini_key', geminiKey);
       toggleConfig();
       updateUI();
+      alert("Configurações salvas com sucesso!");
     }
 
     function exportReport() {
@@ -410,7 +433,6 @@
       a.click();
     }
 
-    /* SISTEMA DE CHAT GEMINI SEGURO */
     function handleChatKeyPress(e) {
       if (e.key === 'Enter') sendChatMessage();
     }
@@ -425,7 +447,7 @@
 
       if (!geminiKey) {
         setTimeout(function() {
-          appendChatMessage("🔑 Abra as configurações (⚙) e insira sua API Key do Gemini.", 'bot');
+          appendChatMessage("🔑 Cole sua Chave API do Gemini (começada em AIza...) no menu de configurações (⚙).", 'bot');
         }, 300);
         return;
       }
@@ -445,7 +467,7 @@
 
     function fetchGeminiReply(userText) {
       var unitPrice = boxPills > 0 ? (price / boxPills) : 0;
-      var promptText = "Você é o Gemini. Contexto do app do usuário: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda à pergunta do usuário: " + userText;
+      var promptText = "Você é o Gemini. Contexto do aplicativo: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda amigavelmente: " + userText;
 
       fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiKey, {
         method: "POST",
@@ -457,13 +479,15 @@
         removeThinkingMsg();
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
+        } else if (data.error) {
+          appendChatMessage("⚠️ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
         } else {
-          appendChatMessage("⚠️ Resposta inválida. Verifique sua Chave API nas configurações.", 'bot');
+          appendChatMessage("⚠️ Resposta inválida. Verifique sua Chave API.", 'bot');
         }
       })
       .catch(function() {
         removeThinkingMsg();
-        appendChatMessage("❌ Erro de conexão com o Gemini.", 'bot');
+        appendChatMessage("❌ Erro de conexão com os servidores da API.", 'bot');
       });
     }
 
