@@ -34,6 +34,8 @@
     .stat-val { font-size: 14px; font-weight: 800; margin-top: 2px; }
     .text-purple { color: #c084fc; }
     .text-green { color: #34d399; }
+    .text-red { color: #f87171; }
+    .text-amber { color: #f59e0b; }
 
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
     .btn-dose { background: #1a1033; border: 1px solid #4c1d95; color: #c084fc; font-size: 16px; font-weight: 800; padding: 12px 0; border-radius: 14px; cursor: pointer; text-align: center; }
@@ -83,7 +85,7 @@
       </div>
       <div>
         <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Zolpidem Control</h1>
-        <p style="font-size: 10px; color: #a855f7;">Gestão Médica & Alertas</p>
+        <p style="font-size: 10px; color: #a855f7;">Gestão Médica, CLT & Caixa</p>
       </div>
     </div>
     <button onclick="toggleConfig()" class="btn-icon">⚙</button>
@@ -111,12 +113,22 @@
         <input type="number" id="inputBoxPills" value="30">
       </div>
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Estoque Atual</label>
+        <label style="font-size: 10px; color: #a78bfa;">Estoque Atual (CPs)</label>
         <input type="number" id="inputStock" value="30">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
         <input type="number" id="inputDaily" value="6">
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 10px;">
+      <div>
+        <label style="font-size: 10px; color: #a78bfa;">Caixas Fechadas (Gaveta)</label>
+        <input type="number" id="inputClosedBoxes" value="1">
+      </div>
+      <div>
+        <!-- Espaço simétrico -->
       </div>
     </div>
     
@@ -167,12 +179,76 @@
         <button onclick="takeCustomDose()" class="btn-submit">Registrar</button>
       </div>
     </div>
+
+    <!-- NOVO CARD: CONTROLE DE CAIXAS NA GAVETA -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">📦 Caixas Fechadas na Gaveta</p>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px;">
+            <span id="closedBoxesDisplay" style="font-size: 26px; font-weight: 900; color: #f3e8ff;">1</span>
+            <span style="font-size: 11px; color: #94a3b8;" id="boxEquivalentText">equivalente a 30 CPs</span>
+          </div>
+        </div>
+        <button onclick="openNewBox()" class="btn-submit" style="background: #7e22ce; border: none; padding: 10px 14px; font-weight: 800;">Abrir Caixa (+30)</button>
+      </div>
+      <p style="font-size: 10px; color: #64748b; margin-top: 8px; line-height: 1.3;">
+        💡 Ao abrir uma caixa lacrada da gaveta, o conteúdo é somado automaticamente ao seu estoque em mãos acima.
+      </p>
+    </div>
   </div>
 
-  <!-- ABA 2: GASTOS -->
+  <!-- ABA 2: PLANEJAMENTO EXECUTIVO & CLT -->
+  <div id="tab-strategy" class="tab-content hidden">
+    <div class="alert alert-danger">
+      <div class="alert-title">🚨 DETERMINAÇÃO EXECUTIVA DE CAIXA</div>
+      <div class="alert-text" style="font-size: 11px; font-weight: normal; margin-top: 4px; line-height: 1.4;">
+        <b>Diretriz Obrigatória:</b> Bloqueio estrito de <b>R$ 1.000,00</b> das férias para garantir a sobrevivência e retorno no mês 11. Gastos supérfluos suspensos.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">📊 Dashboard de Projeção Out/Nov</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Reserva Travada (Férias):</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">Proporcional Retorno Mês 11:</span>
+          <span class="text-green" style="font-weight: 800;">R$ 1.000,00</span>
+        </div>
+        <div class="history-item">
+          <span style="color: #cbd5e1;">1ª Parcela 13º Salário:</span>
+          <span class="text-amber" style="font-weight: 800;">~R$ 1.114,63</span>
+        </div>
+        <div class="history-item" style="border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.1);">
+          <span style="color: #f3e8ff; font-weight: 800;">CAIXA TOTAL GARANTIDO:</span>
+          <span class="text-purple" style="font-weight: 900; font-size: 14px;">R$ 3.114,63</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">⚖️ Análise CLT & Consignados</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #e2e8f0; line-height: 1.4;">
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>Férias (Art. 134 CLT):</b> Início programado em 14/10 (respeitando a proibição de início nos 2 dias antecedentes ao repouso semanal).
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>Abono Pecuniário (Art. 143 CLT):</b> Venda legal de 10 dias de férias calculada e paga em conjunto.
+        </div>
+        <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
+          <b>Consignados Folha (R$ 525,54 total):</b> Descontos previstos em folha (contratos PKT706750554, PKT390965956, PKT384671147, PKT252556451).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA 3: GASTOS -->
   <div id="tab-costs" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Análise Financeira</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Análise Financeira (Saúde)</h2>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <div class="history-item">
           <div>
@@ -201,7 +277,7 @@
     </div>
   </div>
 
-  <!-- ABA 3: RELATÓRIOS -->
+  <!-- ABA 4: RELATÓRIOS -->
   <div id="tab-reports" class="tab-content hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -231,14 +307,14 @@
     </div>
   </div>
 
-  <!-- ABA 4: GEMINI CHAT -->
+  <!-- ABA 5: GEMINI CHAT -->
   <div id="tab-chat" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI (Advogado & Contador)</h2>
       
       <div id="chatHistory" class="chat-box">
         <div class="chat-msg msg-bot">
-          Olá! Pode me perguntar qualquer coisa, pedir relatórios ou análises de gastos.
+          Olá! Assumo o controle como seu advogado financeiro e contador. As diretrizes de caixa, salário-base de R$ 2.229,26 e regras CLT estão ativas.
         </div>
       </div>
 
@@ -249,7 +325,7 @@
     </div>
   </div>
 
-  <!-- ABA 5: DICAS -->
+  <!-- ABA 6: DICAS -->
   <div id="tab-tips" class="tab-content hidden">
     <div class="card">
       <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">💡 Orientações de Uso</h2>
@@ -266,9 +342,10 @@
     </div>
   </div>
 
-  <!-- NAVEGAÇÃO FIXA -->
+  <!-- NAVEGAÇÃO FIXA (6 ABAS) -->
   <div class="nav-bar">
     <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
+    <button onclick="switchTab('strategy')" id="nav-strategy" class="nav-btn"><span>💼</span>Executivo</button>
     <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Gastos</button>
     <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatórios</button>
     <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>Gemini</button>
@@ -279,6 +356,7 @@
     function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
 
     var stock = parseInt(getVal('med_stock', 30));
+    var closedBoxes = parseInt(getVal('med_closedBoxes', 1));
     var price = parseFloat(getVal('med_price', 45.00));
     var boxPills = parseInt(getVal('med_boxPills', 30));
     var dailyDose = parseInt(getVal('med_dailyDose', 6));
@@ -292,6 +370,8 @@
 
     function updateUI() {
       document.getElementById('stockDisplay').innerText = isNaN(stock) ? 0 : stock;
+      document.getElementById('closedBoxesDisplay').innerText = isNaN(closedBoxes) ? 0 : closedBoxes;
+      document.getElementById('boxEquivalentText').innerText = 'equivalente a ' + (closedBoxes * boxPills) + ' CPs na gaveta';
 
       var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
       var currentStockValue = stock * unitPrice;
@@ -301,7 +381,7 @@
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
       document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
-      if (stock <= 0) {
+      if (stock <= 0 && closedBoxes <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
         document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
       } else if (dailyDose <= 0) {
@@ -313,7 +393,7 @@
         today.setDate(today.getDate() + Math.floor(daysLeft));
         var dateStr = today.toLocaleDateString('pt-BR');
         document.getElementById('predictionText').innerText = "Estoque acaba em " + dateStr;
-        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia.";
+        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia (fora as caixas na gaveta).";
       }
 
       var now = new Date();
@@ -348,6 +428,7 @@
       document.getElementById('historyList').innerHTML = hHtml;
 
       localStorage.setItem('med_stock', stock);
+      localStorage.setItem('med_closedBoxes', closedBoxes);
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
       localStorage.setItem('med_dailyDose', dailyDose);
@@ -370,6 +451,16 @@
         takeDose(val);
         inp.value = '';
       }
+    }
+
+    function openNewBox() {
+      if (closedBoxes <= 0) {
+        alert("Você não tem caixas fechadas na gaveta no momento.");
+        return;
+      }
+      closedBoxes--;
+      stock += boxPills;
+      updateUI();
     }
 
     function clearHistory() {
@@ -397,6 +488,7 @@
         document.getElementById('inputPrice').value = price;
         document.getElementById('inputBoxPills').value = boxPills;
         document.getElementById('inputStock').value = stock;
+        document.getElementById('inputClosedBoxes').value = closedBoxes;
         document.getElementById('inputDaily').value = dailyDose;
         document.getElementById('inputGeminiKey').value = geminiKey;
       }
@@ -406,6 +498,7 @@
       price = parseFloat(document.getElementById('inputPrice').value) || 0;
       boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
       stock = parseInt(document.getElementById('inputStock').value) || 0;
+      closedBoxes = parseInt(document.getElementById('inputClosedBoxes').value) || 0;
       dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
       
       var rawKey = document.getElementById('inputGeminiKey').value || '';
@@ -418,12 +511,11 @@
     }
 
     function exportReport() {
-      var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
-      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
+      var txt = "RELATORIO EXECUTIVO & ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque em Mãos: " + stock + " CPs\nCaixas na Gaveta: " + closedBoxes + "\nSalario-Base: R$ 2229.26\nConsignados Totais: R$ 525.54\nCaixa Projetado: R$ 3114.63";
       var blob = new Blob([txt], { type: 'text/plain' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'Relatorio_Zolpidem.txt';
+      a.download = 'Relatorio_Executivo.txt';
       a.click();
     }
 
@@ -460,9 +552,8 @@
     }
 
     function fetchGeminiReply(userText) {
-      var promptText = "Você é o Gemini. Contexto do aplicativo: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda amigavelmente: " + userText;
+      var promptText = "Você é o advogado financeiro e contador pessoal. Seja assertivo, determinando as decisões financeiras com base nas regras CLT e consignados. Contexto: Salário-base R$ 2.229,26, Férias de 14/10, Consignados R$ 525,54 mensais (contratos PKT706750554, PKT390965956, PKT384671147, PKT252556451). Regra: Bloquear R$ 1000 das férias + R$ 1000 do proporcional. Pergunta: " + userText;
 
-      // URL atualizada com o modelo gemini-3.8-flash correto
       fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + geminiKey, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -474,7 +565,7 @@
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           appendChatMessage(data.candidates[0].content.parts[0].text, 'bot');
         } else if (data.error) {
-          appendChatMessage("⚠️ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
+          appendChatMessage("⚠ <b>Erro no Gemini:</b> " + (data.error.message || "Chave inválida."), 'bot');
         } else {
           appendChatMessage("⚠ Resposta inválida. Verifique sua Chave API.", 'bot');
         }
