@@ -113,22 +113,12 @@
         <input type="number" id="inputBoxPills" value="30">
       </div>
       <div>
-        <label style="font-size: 10px; color: #a78bfa;">Estoque Atual (CPs)</label>
-        <input type="number" id="inputStock" value="30">
+        <label style="font-size: 10px; color: #a78bfa;">Estoque Total (CPs)</label>
+        <input type="number" id="inputStock" value="60">
       </div>
       <div>
         <label style="font-size: 10px; color: #a78bfa;">Dose Diária</label>
         <input type="number" id="inputDaily" value="6">
-      </div>
-    </div>
-
-    <div class="grid-2" style="margin-top: 10px;">
-      <div>
-        <label style="font-size: 10px; color: #a78bfa;">Caixas Fechadas (Gaveta)</label>
-        <input type="number" id="inputClosedBoxes" value="1">
-      </div>
-      <div>
-        <!-- Espaço simétrico -->
       </div>
     </div>
     
@@ -149,7 +139,7 @@
     </div>
 
     <div class="card" style="text-align: center;">
-      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Estoque Atual em Mãos</p>
+      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Estoque Atual em Mãos (Total)</p>
       <div id="stockDisplay" class="stock-number">0</div>
       <p style="font-size: 11px; color: #94a3b8;">comprimidos restantes</p>
 
@@ -180,7 +170,7 @@
       </div>
     </div>
 
-    <!-- NOVO CARD: CONTROLE DE CAIXAS NA GAVETA -->
+    <!-- CARD AUTOMÁTICO: CAIXAS FECHADAS NA GAVETA -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
@@ -190,10 +180,13 @@
             <span style="font-size: 11px; color: #94a3b8;" id="boxEquivalentText">equivalente a 30 CPs</span>
           </div>
         </div>
-        <button onclick="openNewBox()" class="btn-submit" style="background: #7e22ce; border: none; padding: 10px 14px; font-weight: 800;">Abrir Caixa (+30)</button>
+        <div style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); padding: 8px 12px; border-radius: 12px; text-align: right;">
+          <div style="font-size: 9px; color: #c084fc; text-transform: uppercase; font-weight: 700;">Status</div>
+          <div id="boxStatusText" style="font-size: 11px; font-weight: 800; color: #34d399;">Sincronizado</div>
+        </div>
       </div>
       <p style="font-size: 10px; color: #64748b; margin-top: 8px; line-height: 1.3;">
-        💡 Ao abrir uma caixa lacrada da gaveta, o conteúdo é somado automaticamente ao seu estoque em mãos acima.
+        💡 Calculado automaticamente: conforme o seu estoque total diminui, as caixas fechadas descem para o consumo sem necessidade de comandos manuais.
       </p>
     </div>
   </div>
@@ -230,7 +223,7 @@
     </div>
 
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">⚖️ Análise CLT & Consignados</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">⚖️️ Análise CLT & Consignados</h2>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #e2e8f0; line-height: 1.4;">
         <div style="background: rgba(15,11,30,0.5); padding: 10px; border-radius: 10px; border-left: 3px solid #34d399;">
           <b>Férias (Art. 134 CLT):</b> Início programado em 14/10 (respeitando a proibição de início nos 2 dias antecedentes ao repouso semanal).
@@ -355,8 +348,7 @@
   <script>
     function getVal(k, d) { var v = localStorage.getItem(k); return (v === null || v === undefined) ? d : v; }
 
-    var stock = parseInt(getVal('med_stock', 30));
-    var closedBoxes = parseInt(getVal('med_closedBoxes', 1));
+    var stock = parseInt(getVal('med_stock', 60));
     var price = parseFloat(getVal('med_price', 45.00));
     var boxPills = parseInt(getVal('med_boxPills', 30));
     var dailyDose = parseInt(getVal('med_dailyDose', 6));
@@ -370,8 +362,21 @@
 
     function updateUI() {
       document.getElementById('stockDisplay').innerText = isNaN(stock) ? 0 : stock;
-      document.getElementById('closedBoxesDisplay').innerText = isNaN(closedBoxes) ? 0 : closedBoxes;
-      document.getElementById('boxEquivalentText').innerText = 'equivalente a ' + (closedBoxes * boxPills) + ' CPs na gaveta';
+
+      // CÁLCULO AUTOMÁTICO DE CAIXAS FECHADAS NA GAVETA
+      // Se você tem N comprimidos no total, 1 caixa está aberta/em uso. O restante forma as caixas fechadas.
+      var closedBoxes = stock > boxPills ? Math.floor((stock - 1) / boxPills) : 0;
+      document.getElementById('closedBoxesDisplay').innerText = closedBoxes;
+      document.getElementById('boxEquivalentText').innerText = 'equivalente a ' + (closedBoxes * boxPills) + ' CPs lacrados';
+      
+      var statusTextEl = document.getElementById('boxStatusText');
+      if (closedBoxes > 0) {
+        statusTextEl.innerText = closedBoxes + " caixa(s) na gaveta";
+        statusTextEl.style.color = "#34d399";
+      } else {
+        statusTextEl.innerText = "Última caixa aberta";
+        statusTextEl.style.color = "#f59e0b";
+      }
 
       var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
       var currentStockValue = stock * unitPrice;
@@ -381,9 +386,9 @@
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
       document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
-      if (stock <= 0 && closedBoxes <= 0) {
+      if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
-        document.getElementById('daysRemainingText').innerText = "Cadastre um novo lote nas configurações.";
+        document.getElementById('daysRemainingText').innerText = "Atualize o seu estoque total nas configurações.";
       } else if (dailyDose <= 0) {
         document.getElementById('predictionText').innerText = "Configure a dose diária.";
         document.getElementById('daysRemainingText').innerText = "";
@@ -393,7 +398,7 @@
         today.setDate(today.getDate() + Math.floor(daysLeft));
         var dateStr = today.toLocaleDateString('pt-BR');
         document.getElementById('predictionText').innerText = "Estoque acaba em " + dateStr;
-        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia (fora as caixas na gaveta).";
+        document.getElementById('daysRemainingText').innerText = "Resta(m) " + daysLeft.toFixed(1) + " dia(s) a " + dailyDose + "/dia.";
       }
 
       var now = new Date();
@@ -428,7 +433,6 @@
       document.getElementById('historyList').innerHTML = hHtml;
 
       localStorage.setItem('med_stock', stock);
-      localStorage.setItem('med_closedBoxes', closedBoxes);
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
       localStorage.setItem('med_dailyDose', dailyDose);
@@ -451,16 +455,6 @@
         takeDose(val);
         inp.value = '';
       }
-    }
-
-    function openNewBox() {
-      if (closedBoxes <= 0) {
-        alert("Você não tem caixas fechadas na gaveta no momento.");
-        return;
-      }
-      closedBoxes--;
-      stock += boxPills;
-      updateUI();
     }
 
     function clearHistory() {
@@ -488,7 +482,6 @@
         document.getElementById('inputPrice').value = price;
         document.getElementById('inputBoxPills').value = boxPills;
         document.getElementById('inputStock').value = stock;
-        document.getElementById('inputClosedBoxes').value = closedBoxes;
         document.getElementById('inputDaily').value = dailyDose;
         document.getElementById('inputGeminiKey').value = geminiKey;
       }
@@ -498,7 +491,6 @@
       price = parseFloat(document.getElementById('inputPrice').value) || 0;
       boxPills = parseInt(document.getElementById('inputBoxPills').value) || 1;
       stock = parseInt(document.getElementById('inputStock').value) || 0;
-      closedBoxes = parseInt(document.getElementById('inputClosedBoxes').value) || 0;
       dailyDose = parseInt(document.getElementById('inputDaily').value) || 1;
       
       var rawKey = document.getElementById('inputGeminiKey').value || '';
@@ -511,7 +503,7 @@
     }
 
     function exportReport() {
-      var txt = "RELATORIO EXECUTIVO & ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque em Mãos: " + stock + " CPs\nCaixas na Gaveta: " + closedBoxes + "\nSalario-Base: R$ 2229.26\nConsignados Totais: R$ 525.54\nCaixa Projetado: R$ 3114.63";
+      var txt = "RELATORIO EXECUTIVO & ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque Total em Mãos: " + stock + " CPs\nSalario-Base: R$ 2229.26\nConsignados Totais: R$ 525.54\nCaixa Projetado: R$ 3114.63";
       var blob = new Blob([txt], { type: 'text/plain' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
