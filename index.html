@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zolpidem & Finanças Pro</title>
+  <title>Zolpidem Control Pro</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #090714; color: #f1f5f9; padding: 16px; padding-bottom: 95px; }
@@ -27,7 +27,7 @@
     .alert-danger .alert-title { color: #fb7185; }
     .alert-danger .alert-text { color: #ffe4e6; }
 
-    .stock-number { font-size: 46px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+    .stock-number { font-size: 54px; font-weight: 900; text-align: center; margin: 6px 0; color: #f3e8ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .stat-box { background: rgba(15, 11, 30, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.15); }
     .stat-label { font-size: 9px; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -50,6 +50,9 @@
       border-radius: 12px !important;
       font-size: 13px !important;
       outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
     }
 
     .btn-submit { background: #3b0764; border: 1px solid #6b21a8; color: #e9d5ff; font-weight: 700; font-size: 12px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
@@ -79,8 +82,8 @@
         <div class="box-stripe"></div>
       </div>
       <div>
-        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Zolpidem & Finanças</h1>
-        <p style="font-size: 10px; color: #a855f7;">Controle de Saúde & Orçamento</p>
+        <h1 style="font-size: 15px; font-weight: 800; color: #f3e8ff;">Zolpidem Control</h1>
+        <p style="font-size: 10px; color: #a855f7;">Gestão Médica & Alertas</p>
       </div>
     </div>
     <button onclick="toggleConfig()" class="btn-icon">⚙</button>
@@ -91,7 +94,7 @@
     <div class="alert-title">⚠ ALERTA DE EFEITO DE PICO (01:20 - 01:40)</div>
     <div class="alert-text">Os efeitos do medicamento estão no seu ápice agora!</div>
     <div class="alert-sub" style="margin-top: 6px; font-size: 11px; line-height: 1.4; color: #ffe4e6;">
-      💬 <b>Atenção:</b> Verifique mensagens ou áudios enviados para evitar arrependimentos amanhã sob efeito do remédio.
+      💬 <b>Atenção:</b> Por favor, verifique e apague mensagens ou áudios que você não queira que as pessoas vejam amanhã, pois você pode ter agido sob o efeito do remédio.
     </div>
   </div>
 
@@ -119,13 +122,13 @@
     
     <div style="margin-top: 10px;">
       <label style="font-size: 10px; color: #a78bfa;">Chave API Gemini</label>
-      <input type="text" id="inputGeminiKey" placeholder="Cole sua chave API aqui">
+      <input type="text" id="inputGeminiKey" placeholder="Cole a sua Chave API aqui">
     </div>
 
     <button onclick="saveConfig()" class="btn-submit" style="width: 100%; margin-top: 12px; padding: 12px; background: #9333ea; border: none; font-weight: 800;">SALVAR CONFIGURAÇÕES</button>
   </div>
 
-  <!-- ABA 1: INÍCIO (MEDICAMENTO) -->
+  <!-- ABA 1: INÍCIO -->
   <div id="tab-home" class="tab-content">
     <div class="alert">
       <div class="alert-title">⏳ Previsão de Término</div>
@@ -166,17 +169,25 @@
     </div>
   </div>
 
-  <!-- ABA 2: GASTOS DE MEDICAMENTOS -->
+  <!-- ABA 2: GASTOS -->
   <div id="tab-costs" class="tab-content hidden">
     <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Custos de Saúde</h2>
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 12px;">💰 Análise Financeira</h2>
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <div class="history-item">
           <div>
             <div style="color: #cbd5e1;">Gasto Real no Mês</div>
-            <div style="font-size: 9px; color: #64748b;">Consumo de comprimidos</div>
+            <div style="font-size: 9px; color: #64748b;">Baseado no histórico</div>
           </div>
           <div id="spentThisMonthDisplay" style="font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
+        </div>
+
+        <div class="history-item">
+          <div>
+            <div style="color: #cbd5e1;">Estimativa Mensal</div>
+            <div style="font-size: 9px; color: #64748b;">Com base na dose diária</div>
+          </div>
+          <div id="monthlySpendDisplay" style="font-size: 15px; font-weight: 800; color: #c084fc;">R$ 0,00</div>
         </div>
 
         <div class="history-item" style="border-color: rgba(245, 158, 11, 0.4);">
@@ -190,48 +201,11 @@
     </div>
   </div>
 
-  <!-- ABA 3: FÉRIAS E FINANÇAS (NOVA) -->
-  <div id="tab-finances" class="tab-content hidden">
-    <div class="card">
-      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">💼 Recibo de Férias & Orçamento</h2>
-      
-      <div class="grid-2" style="margin-bottom: 10px;">
-        <div>
-          <label style="font-size: 10px; color: #a78bfa;">Valor Bruto/Líquido Férias (R$)</label>
-          <input type="number" id="inputVacationIncome" value="0.00" step="0.01" oninput="saveFinances()">
-        </div>
-        <div>
-          <label style="font-size: 10px; color: #a78bfa;">Saldo Disponível</label>
-          <div id="vacationBalance" class="stat-val text-green" style="font-size: 16px; margin-top: 8px;">R$ 0,00</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Registar Gasto das Férias</p>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <input type="text" id="expenseDesc" placeholder="Descrição (ex: Viagem, Mercado, Lazer)">
-        <input type="number" id="expenseVal" placeholder="Valor (R$)" step="0.01">
-        <button onclick="addVacationExpense()" class="btn-submit" style="padding: 10px; background: #9333ea; border:none; font-weight: 800;">Adicionar Despesa</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Gastos Registados</p>
-        <button onclick="clearVacationExpenses()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
-      </div>
-      <div id="vacationExpenseList">
-        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum gasto registado.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ABA 4: RELATÓRIOS -->
+  <!-- ABA 3: RELATÓRIOS -->
   <div id="tab-reports" class="tab-content hidden">
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório Geral</h2>
+        <h2 style="font-size: 13px; color: #c084fc;">📊 Relatório do Mês</h2>
         <button onclick="exportReport()" class="btn-submit" style="background: #10b981; padding: 6px 12px; border:none;">📥 Exportar TXT</button>
       </div>
       <div class="grid-2">
@@ -247,21 +221,24 @@
     </div>
 
     <div class="card">
-      <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Histórico de Consumo</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <p style="font-size: 10px; color: #a78bfa; font-weight: 700; text-transform: uppercase;">Histórico</p>
+        <button onclick="clearHistory()" style="background:none; border:none; color: #f87171; font-size: 10px; cursor: pointer;">Limpar</button>
+      </div>
       <div id="historyList">
-        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>
+        <p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registro.</p>
       </div>
     </div>
   </div>
 
-  <!-- ABA 5: GEMINI CHAT -->
+  <!-- ABA 4: GEMINI CHAT -->
   <div id="tab-chat" class="tab-content hidden">
     <div class="card">
       <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 8px;">✨ Gemini AI</h2>
       
       <div id="chatHistory" class="chat-box">
         <div class="chat-msg msg-bot">
-          Olá! Posso ajudar a analisar seus gastos de férias ou o seu estoque de medicamentos. Pergunte o que quiser!
+          Olá! Pode me perguntar qualquer coisa, pedir relatórios ou análises de gastos.
         </div>
       </div>
 
@@ -272,13 +249,30 @@
     </div>
   </div>
 
-  <!-- NAVEGAÇÃO FIXA (5 ABAS) -->
+  <!-- ABA 5: DICAS -->
+  <div id="tab-tips" class="tab-content hidden">
+    <div class="card">
+      <h2 style="font-size: 13px; color: #c084fc; margin-bottom: 10px;">💡 Orientações de Uso</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #cbd5e1;">
+        <div class="stat-box">
+          <p style="font-weight: 700; color: #f59e0b; margin-bottom: 2px;">⚠️ Momento Correto</p>
+          <p>Tome o Zolpidem imediatamente antes de se deitar na cama. O efeito é de ação rápida.</p>
+        </div>
+        <div class="stat-box">
+          <p style="font-weight: 700; color: #c084fc; margin-bottom: 2px;">💊 Medicamento Genérico</p>
+          <p>O genérico possui idêntico princípio ativo (Hemitartarato de Zolpidem 10mg) e eficácia garantida.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO FIXA -->
   <div class="nav-bar">
     <button onclick="switchTab('home')" id="nav-home" class="nav-btn active"><span>🏠</span>Início</button>
-    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Saúde</button>
-    <button onclick="switchTab('finances')" id="nav-finances" class="nav-btn"><span>💼</span>Férias</button>
-    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatório</button>
+    <button onclick="switchTab('costs')" id="nav-costs" class="nav-btn"><span>💰</span>Gastos</button>
+    <button onclick="switchTab('reports')" id="nav-reports" class="nav-btn"><span>📊</span>Relatórios</button>
     <button onclick="switchTab('chat')" id="nav-chat" class="nav-btn"><span>✨</span>Gemini</button>
+    <button onclick="switchTab('tips')" id="nav-tips" class="nav-btn"><span>💡</span>Dicas</button>
   </div>
 
   <script>
@@ -289,17 +283,12 @@
     var boxPills = parseInt(getVal('med_boxPills', 30));
     var dailyDose = parseInt(getVal('med_dailyDose', 6));
     var geminiKey = getVal('med_gemini_key', '');
-    var vacationIncome = parseFloat(getVal('vac_income', 0.00));
-    
     var historyData = [];
-    var vacationExpenses = [];
 
     try {
       var h = localStorage.getItem('med_history');
       if (h) historyData = JSON.parse(h);
-      var ve = localStorage.getItem('vac_expenses');
-      if (ve) vacationExpenses = JSON.parse(ve);
-    } catch(e) { historyData = []; vacationExpenses = []; }
+    } catch(e) { historyData = []; }
 
     function updateUI() {
       document.getElementById('stockDisplay').innerText = isNaN(stock) ? 0 : stock;
@@ -310,6 +299,7 @@
 
       document.getElementById('unitPriceDisplay').innerText = 'R$ ' + unitPrice.toFixed(2);
       document.getElementById('stockValueDisplay').innerText = 'R$ ' + currentStockValue.toFixed(2);
+      document.getElementById('monthlySpendDisplay').innerText = 'R$ ' + monthlyCost.toFixed(2);
 
       if (stock <= 0) {
         document.getElementById('predictionText').innerText = "Atenção: Estoque zerado!";
@@ -347,27 +337,9 @@
       document.getElementById('renewCostDisplay').innerText = 'R$ ' + (boxesNeeded * price).toFixed(2);
       document.getElementById('boxesToBuyText').innerText = "Necessário comprar " + boxesNeeded + " caixa(s).";
 
-      // Atualizar Finanças / Férias
-      document.getElementById('inputVacationIncome').value = vacationIncome;
-      var totalVacExpenses = 0;
-      var veHtml = '';
-      if (!Array.isArray(vacationExpenses) || vacationExpenses.length === 0) {
-        veHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum gasto registado.</p>';
-      } else {
-        vacationExpenses.forEach(function(item, idx) {
-          totalVacExpenses += (item.val || 0);
-          veHtml += '<div class="history-item"><div><b>' + item.desc + '</b></div><span style="color:#f87171; font-weight:700;">- R$ ' + (item.val || 0).toFixed(2) + '</span></div>';
-        });
-      }
-      document.getElementById('vacationExpenseList').innerHTML = veHtml;
-      var balance = vacationIncome - totalVacExpenses;
-      var balEl = document.getElementById('vacationBalance');
-      balEl.innerText = 'R$ ' + balance.toFixed(2);
-      balEl.className = 'stat-val ' + (balance >= 0 ? 'text-green' : 'text-danger');
-
       var hHtml = '';
       if (!Array.isArray(historyData) || historyData.length === 0) {
-        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registo.</p>';
+        hHtml = '<p style="text-align: center; color: #64748b; font-size: 11px; padding: 10px;">Nenhum registro.</p>';
       } else {
         historyData.slice(0, 10).forEach(function(item) {
           hHtml += '<div class="history-item"><div><b>✔️ Tomei ' + item.amount + ' CP(s)</b><div style="font-size:9px; color:#a78bfa;">' + (item.timeStr || '') + '</div></div><span style="color:#34d399; font-weight:700;">R$ ' + ((item.amount||0)*unitPrice).toFixed(2) + '</span></div>';
@@ -379,36 +351,7 @@
       localStorage.setItem('med_price', price);
       localStorage.setItem('med_boxPills', boxPills);
       localStorage.setItem('med_dailyDose', dailyDose);
-      localStorage.setItem('vac_income', vacationIncome);
       localStorage.setItem('med_history', JSON.stringify(historyData));
-      localStorage.setItem('vac_expenses', JSON.stringify(vacationExpenses));
-    }
-
-    function saveFinances() {
-      var val = parseFloat(document.getElementById('inputVacationIncome').value);
-      vacationIncome = isNaN(val) ? 0 : val;
-      updateUI();
-    }
-
-    function addVacationExpense() {
-      var descInp = document.getElementById('expenseDesc');
-      var valInp = document.getElementById('expenseVal');
-      var desc = descInp.value.trim() || 'Gasto de Férias';
-      var val = parseFloat(valInp.value);
-
-      if (val && val > 0) {
-        vacationExpenses.unshift({ desc: desc, val: val });
-        descInp.value = '';
-        valInp.value = '';
-        updateUI();
-      }
-    }
-
-    function clearVacationExpenses() {
-      if (confirm("Deseja apagar os gastos de férias?")) {
-        vacationExpenses = [];
-        updateUI();
-      }
     }
 
     function takeDose(amt) {
@@ -426,6 +369,13 @@
       if (val && val > 0) {
         takeDose(val);
         inp.value = '';
+      }
+    }
+
+    function clearHistory() {
+      if (confirm("Deseja apagar o histórico?")) {
+        historyData = [];
+        updateUI();
       }
     }
 
@@ -469,11 +419,11 @@
 
     function exportReport() {
       var unitPrice = (boxPills > 0) ? (price / boxPills) : 0;
-      var txt = "RELATORIO GERAL\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque Med: " + stock + " CPs\nRecibo Férias: R$ " + vacationIncome.toFixed(2);
+      var txt = "RELATORIO ZOLPIDEM\nData: " + new Date().toLocaleString('pt-BR') + "\nEstoque: " + stock + " CPs\nCusto/CP: R$ " + unitPrice.toFixed(2);
       var blob = new Blob([txt], { type: 'text/plain' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'Relatorio_Geral.txt';
+      a.download = 'Relatorio_Zolpidem.txt';
       a.click();
     }
 
@@ -510,8 +460,9 @@
     }
 
     function fetchGeminiReply(userText) {
-      var promptText = "Você é o assistente financeiro e de saúde. Contexto: Recebido Férias=R$" + vacationIncome + ", Estoque Med=" + stock + " CPs. Responda de forma útil: " + userText;
+      var promptText = "Você é o Gemini. Contexto do aplicativo: Estoque=" + stock + " CPs, Preço/caixa=R$" + price + ", DoseDiária=" + dailyDose + " CPs. Responda amigavelmente: " + userText;
 
+      // URL atualizada com o modelo gemini-3.8-flash correto
       fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + geminiKey, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
